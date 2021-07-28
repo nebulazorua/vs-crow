@@ -36,14 +36,6 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
-
-		for (i in 0...initSonglist.length)
-		{
-			var data = initSonglist[i].split(" ");
-			var icon = data.splice(0,1)[0];
-			songs.push(new SongMetadata(data.join(" "), 1, icon));
-		}
 
 
 			if (FlxG.sound.music != null)
@@ -63,30 +55,13 @@ class FreeplayState extends MusicBeatState
 		#if debug
 		isDebug = true;
 		#end
-
-		if (StoryMenuState.weekUnlocked[2] || isDebug)
-			addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
-
-		if (StoryMenuState.weekUnlocked[2] || isDebug)
-			addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky','spooky','monster']);
-
-		if (StoryMenuState.weekUnlocked[3] || isDebug)
-			addWeek(['Pico', 'Philly-Nice', 'Blammed'], 3, ['pico']);
-
-		if (StoryMenuState.weekUnlocked[4] || isDebug)
-			addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['mom']);
-
-		if (StoryMenuState.weekUnlocked[5] || isDebug)
-			addWeek(['Cocoa', 'Eggnog', 'Winter-Horrorland'], 5, ['parents-christmas', 'parents-christmas', 'monster-christmas']);
-
-		if (StoryMenuState.weekUnlocked[6] || isDebug)
-			addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit']);
+		addWeek(['Crow','Boss','Your-End'], 1, ['crow']);
 
 		// LOAD MUSIC
 
 		// LOAD CHARACTERS
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('${OptionUtils.bgPrefix}menuBGBlue'));
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="TAXI.png">
+	<SubTexture name="TAXI0000" x="0" y="0" width="473" height="307"/>
+	<SubTexture name="TAXI0001" x="0" y="0" width="473" height="307"/>
+	<SubTexture name="TAXI0002" x="0" y="308" width="473" height="307"/>
+	<SubTexture name="TAXI0003" x="0" y="616" width="473" height="307"/>
+	<SubTexture name="TAXI0004" x="0" y="616" width="473" height="307"/>
+	<SubTexture name="TAXI0005" x="0" y="924" width="473" height="307"/>
+	<SubTexture name="TAXI0006" x="0" y="1232" width="473" height="307"/>
+	<SubTexture name="TAXI0007" x="0" y="1232" width="473" height="307"/>
+	<SubTexture name="TAXI0008" x="0" y="0" width="473" height="307"/>
+	<SubTexture name="TAXI0009" x="0" y="308" width="473" height="307"/>
+	<SubTexture name="TAXI0010" x="0" y="308" width="473" height="307"/>
+	<SubTexture name="TAXI0011" x="0" y="616" width="473" height="307"/>
+	<SubTexture name="TAXI0012" x="0" y="924" width="473" height="307"/>
+	<SubTexture name="TAXI0013" x="0" y="924" width="473" height="307"/>
+	<SubTexture name="TAXI0014" x="0" y="1232" width="473" height="307"/>
+</TextureAtlas>

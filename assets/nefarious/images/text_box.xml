@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="text_box.png">
+	<SubTexture name="TextBox0000" x="0" y="0" width="1200" height="355" frameX="0" frameY="0" frameWidth="1200" frameHeight="355"/>
+
+</TextureAtlas>

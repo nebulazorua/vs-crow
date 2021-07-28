@@ -5,6 +5,7 @@ class ScoreUtils
 {
 	public static var gradeArray:Array<String> = ["☆☆☆☆","☆☆☆","☆☆","☆","S+","S","S-","A+","A","A-","B+","B","B-","C+","C","C-","D"];
 	public static var ghostTapping:Bool=false;
+	public static var botPlay:Bool=false;
 	public static var ratingStrings = [
 		"sick",
 		"good",

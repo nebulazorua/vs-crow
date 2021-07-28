@@ -18,6 +18,7 @@ class MenuCharacter extends FlxSprite
 
 		animation.addByPrefix('bf', "BF idle dance white", 24);
 		animation.addByPrefix('bfConfirm', 'BF HEY!!', 24, false);
+		animation.addByPrefix('crow', "Crow idle dance", 24);
 		animation.addByPrefix('gf', "GF Dancing Beat WHITE", 24);
 		animation.addByPrefix('dad', "Dad idle dance BLACK LINE", 24);
 		animation.addByPrefix('spooky', "spooky dance idle BLACK LINES", 24);
@@ -29,5 +30,13 @@ class MenuCharacter extends FlxSprite
 
 		animation.play(character);
 		updateHitbox();
+	}
+	public function set(char:String){
+		if(animation.getByName(char)==null){
+			visible=false;
+		}else{
+			visible=true;
+			animation.play(char);
+		}
 	}
 }

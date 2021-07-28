@@ -976,7 +976,7 @@ class ChartingState extends MusicBeatState
  			var daStrumTime = i[0];
  			var daSus = i[2];
 
- 			var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false,0,true);
+ 			var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false,0,true,i[3]);
 			note.wasGoodHit = daStrumTime<Conductor.songPosition;
  			note.rawNoteData = daNoteInfo;
  			note.sustainLength = daSus;
@@ -998,7 +998,7 @@ class ChartingState extends MusicBeatState
  				var sus = [];
  				for (susNote in 0...Math.floor(daSus))
  				{
- 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteInfo % 4, oldNote, true,0,true);
+ 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteInfo % 4, oldNote, true,0,true,i[3]);
  					sustainNote.rawNoteData = daNoteInfo;
  					sustainNote.setGraphicSize(GRID_SIZE, GRID_SIZE);
  					sustainNote.updateHitbox();
@@ -1085,7 +1085,7 @@ class ChartingState extends MusicBeatState
 				_song.notes[curSection].sectionNotes.remove(i);
 			}
 		}
-		updateMarkerUI();
+
 		updateGrid();
 	}
 
@@ -1164,12 +1164,12 @@ class ChartingState extends MusicBeatState
 		var noteStrum = getStrumTime(dummyArrow.y) + sectionStartTime();
 		var noteData = Math.floor(FlxG.mouse.x / GRID_SIZE);
 		var noteSus = 0;
-		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus]);
+		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, rightClick?1:0]);
 
 		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
 		if(FlxG.keys.pressed.CONTROL){
-			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData+4)%8, noteSus]);
+			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData+4)%8, noteSus, rightClick?1:0]);
 		}
 
 		updateGrid();

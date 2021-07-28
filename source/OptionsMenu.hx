@@ -32,12 +32,11 @@ class OptionsMenu extends MusicBeatState
 			new OptionCategory("Modifiers",[
 				new ToggleOption("failForMissing","Sudden Death"),
 			]),
+			new ToggleOption("loadModcharts","Load Lua modcharts"),
 			new ScrollOption("ratingWindow",0,OptionUtils.ratingWindowNames.length-1,OptionUtils.ratingWindowNames),
 			new ToggleOption("ghosttapping","Ghost-tapping","Missing when you hit nothing"),
+			new ToggleOption("botPlay","BotPlay","Let a bot play for you"),
 			new StateOption("Calibrate Offset",new SoundOffsetState()),
-		]),
-		new OptionCategory("Modification",[
-			new ToggleOption("loadModcharts","Load Lua modcharts"),
 		]),
 		new OptionCategory("Preferences",[
 			new ToggleOption("pauseHoldAnims","Holds pause anims", "Do animations get paused on the first frame on holds"),
@@ -49,6 +48,7 @@ class OptionsMenu extends MusicBeatState
 			new ToggleOption("newInput","New Input","New input is a quaver-like system where each lane handles its own notes"),
 			new ToggleOption("hitSound","Hit sounds","Play a click sound when you hit a note"),
 			new ToggleOption("freeplayPreview","Song preview in freeplay","Do songs get played when selecting them in the freeplay menu"),
+			new ToggleBGOption("FNF-Style Menu BGs","Does the background look like vanilla FNF's"),
 			new OptionCategory("Effects",[
 				new ToggleOption("picoShaders","Week 3 shaders","Does the windows fading out in week 3 use shaders"),
 				new ToggleOption("picoCamshake","Week 3 cam shake","Does the train cause a camera shake in week 3"),
@@ -60,7 +60,8 @@ class OptionsMenu extends MusicBeatState
 	private var optionText:FlxTypedGroup<Option>;
 	private var curSelected:Int = 0;
 	public static var category:Dynamic;
-
+	var menuBG:FlxSprite;
+	var currTex = '${OptionUtils.bgPrefix}menuDesat';
 	override function create()
 	{
 		#if desktop
@@ -68,8 +69,7 @@ class OptionsMenu extends MusicBeatState
 		DiscordClient.changePresence("Changing options", null);
 		#end
 		category=defCat;
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
-
+		menuBG = new FlxSprite().loadGraphic(Paths.image(currTex));
 		menuBG.color = 0xFFa271de;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -218,6 +218,15 @@ class OptionsMenu extends MusicBeatState
 			//optionText.remove(optionText.members[curSelected]);
 			option.createOptionText(curSelected,optionText);
 			changeSelection();
+		}
+		if(currTex!='${OptionUtils.bgPrefix}menuDesat'){
+			currTex='${OptionUtils.bgPrefix}menuDesat';
+			menuBG.loadGraphic(Paths.image(currTex));
+			menuBG.color = 0xFFa271de;
+			menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
+			menuBG.updateHitbox();
+			menuBG.screenCenter();
+			menuBG.antialiasing = true;
 		}
 		super.update(elapsed);
 
