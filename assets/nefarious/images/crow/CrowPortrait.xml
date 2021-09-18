@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="CrowPortrait.png">
-	<SubTexture name="CrowPortrait0000" x="0" y="0" width="400" height="400"/>
-</TextureAtlas>

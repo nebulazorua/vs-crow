@@ -1,2 +1,0 @@
-danceLeft 0 -9
-danceRight 0 -9

@@ -1,5 +1,6 @@
 package;
 
+import Options;
 import Conductor.BPMChangeEvent;
 import Section.SwagSection;
 import Song.SwagSong;
@@ -32,6 +33,7 @@ import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
+import objects.ui.*;
 
 using StringTools;
 
@@ -60,13 +62,21 @@ class ChartingState extends MusicBeatState
 
 	var GRID_SIZE:Int = 40;
 
-	var dummyArrow:FlxSprite;
+	var dummyArrow:NoteGraphic;
 	var useHitSounds = false;
 	var curRenderedNotes:FlxTypedGroup<Note>;
 	var curRenderedSustains:FlxTypedGroup<Note>;
 	var curRenderedMarkers:FlxTypedGroup<FlxSprite>;
 
 	var gridBG:FlxSprite;
+	var quantization:Int = 16;
+	var quantIdx = 0;
+	var quantizations:Array<Int> = [
+		16,
+		8,
+		6, // because echo needs 1/6 lmao
+		4,
+	];
 
 	var _song:SwagSong;
 	var velChanges:Array<VelocityChange> = [];
@@ -87,8 +97,6 @@ class ChartingState extends MusicBeatState
 
 	override function create()
 	{
-		curSection = lastSection;
-
 		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
 		add(gridBG);
 
@@ -155,7 +163,11 @@ class ChartingState extends MusicBeatState
 		strumLine = new FlxSprite(0, 50).makeGraphic(Std.int(FlxG.width / 2), 4);
 		add(strumLine);
 
-		dummyArrow = new FlxSprite().makeGraphic(GRID_SIZE, GRID_SIZE);
+		dummyArrow = new NoteGraphic('base','default');
+		dummyArrow.setDir(0,false,false);
+		dummyArrow.setGraphicSize(GRID_SIZE,GRID_SIZE);
+		dummyArrow.updateHitbox();
+		dummyArrow.alpha=.5;
 		add(dummyArrow);
 
 		var tabs = [
@@ -350,7 +362,7 @@ class ChartingState extends MusicBeatState
 		var tab_group_marker = new FlxUI(null,UI_box);
 		tab_group_marker.name = 'Marker';
 
-		markerScrollMult = new FlxUINumericStepper(10, 10, .1, 0, 0, 10, 1);
+		markerScrollMult = new FlxUINumericStepper(10, 10, .1, 0, -10, 10, 1);
 		markerScrollMult.value = 1;
 		markerScrollMult.name = 'marker_scrollVel';
 
@@ -532,7 +544,15 @@ class ChartingState extends MusicBeatState
 	{
 		curStep = recalculateSteps();
 
-		Conductor.songPosition = FlxG.sound.music.time;
+		if(FlxG.keys.justPressed.ALT){
+			quantIdx+=1;
+			if(quantIdx>quantizations.length-1)
+				quantIdx = 0;
+
+			quantization = quantizations[quantIdx];
+		}
+
+		Conductor.songPosition = FlxG.sound.music.time + OptionUtils.options.noteOffset;
 		_song.song = typingShit.text;
 
 		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps));
@@ -606,7 +626,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		curRenderedNotes.forEach(function(note:Note){
-			if(note.strumTime<=Conductor.songPosition && note.noteType==0){
+			if(note.strumTime<=Conductor.songPosition && note.noteType!='mine'){
 				if(note.color!=0xAAAAAA){
 					if(!note.wasGoodHit){
 						note.wasGoodHit=true;
@@ -631,10 +651,13 @@ class ChartingState extends MusicBeatState
 			&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
 		{
 			dummyArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
+			dummyArrow.setDir(Math.floor(FlxG.mouse.x / GRID_SIZE)%4,false,false);
+			dummyArrow.setGraphicSize(GRID_SIZE,GRID_SIZE);
+			dummyArrow.updateHitbox();
 			if (FlxG.keys.pressed.SHIFT)
 				dummyArrow.y = FlxG.mouse.y;
 			else
-				dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
+				dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE*quantization/16)) * (GRID_SIZE*quantization/16);
 		}
 
 		if (FlxG.keys.justPressed.ENTER)
@@ -771,7 +794,13 @@ class ChartingState extends MusicBeatState
 			+ " / "
 			+ Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2))
 			+ "\nSection: "
-			+ curSection;
+			+ curSection
+			+ "\nStep: "
+			+ curStep
+			+ "\nBeat: "
+			+ curBeat
+			+ "\nSnap: 1/"
+			+ quantization + "\n(Press ALT to switch)";
 		super.update(elapsed);
 	}
 
@@ -876,7 +905,7 @@ class ChartingState extends MusicBeatState
 		{
 			var strum = note[0] + Conductor.stepCrochet * (_song.notes[daSec].lengthInSteps * sectionNum);
 
-			var copiedNote:Array<Dynamic> = [strum, note[1], note[2]];
+			var copiedNote:Array<Dynamic> = [strum, note[1], note[2], note[3]];
 			_song.notes[daSec].sectionNotes.push(copiedNote);
 		}
 
@@ -975,8 +1004,13 @@ class ChartingState extends MusicBeatState
  			var daNoteInfo = i[1];
  			var daStrumTime = i[0];
  			var daSus = i[2];
+			var noteType:Dynamic = i[3];
+			if(noteType==1){
+				noteType='mine';
+				i[3]='mine';
+			}
 
- 			var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false,0,true,i[3]);
+ 			var note:Note = new Note(daStrumTime, daNoteInfo % 4, 'default', noteType, PlayState.noteModifier, null, false,0,true);
 			note.wasGoodHit = daStrumTime<Conductor.songPosition;
  			note.rawNoteData = daNoteInfo;
  			note.sustainLength = daSus;
@@ -998,7 +1032,7 @@ class ChartingState extends MusicBeatState
  				var sus = [];
  				for (susNote in 0...Math.floor(daSus))
  				{
- 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteInfo % 4, oldNote, true,0,true,i[3]);
+ 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteInfo % 4, 'default', PlayState.noteModifier, oldNote, true,0,true);
  					sustainNote.rawNoteData = daNoteInfo;
  					sustainNote.setGraphicSize(GRID_SIZE, GRID_SIZE);
  					sustainNote.updateHitbox();
@@ -1011,7 +1045,7 @@ class ChartingState extends MusicBeatState
  				}
  				for(i in curRenderedSustains){
 					switch(i.noteType){
-						case 0:
+						default:
 		 					if(i.animation.curAnim.name.endsWith("end") ){
 		 						if(PlayState.curStage.startsWith("school")){
 		 							i.setGraphicSize(Std.int(GRID_SIZE*.35), Std.int(GRID_SIZE*.35));
@@ -1035,15 +1069,10 @@ class ChartingState extends MusicBeatState
 		 						}
 		 						i.x = Math.floor(i.rawNoteData * GRID_SIZE);
 		 					}
-						case 1:
-							i.setGraphicSize(Std.int(GRID_SIZE*.75),GRID_SIZE);
-							i.updateHitbox();
-							i.offset.x-=.5;
-							//i.y = Math.floor(getYfromStrum((i.strumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
+						}
 					}
  				}
  			}
- 		}
 	}
 
 	private function addSection(lengthInSteps:Int = 16):Void
@@ -1085,7 +1114,7 @@ class ChartingState extends MusicBeatState
 				_song.notes[curSection].sectionNotes.remove(i);
 			}
 		}
-
+		updateMarkerUI();
 		updateGrid();
 	}
 
@@ -1164,12 +1193,12 @@ class ChartingState extends MusicBeatState
 		var noteStrum = getStrumTime(dummyArrow.y) + sectionStartTime();
 		var noteData = Math.floor(FlxG.mouse.x / GRID_SIZE);
 		var noteSus = 0;
-		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, rightClick?1:0]);
+		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, rightClick?'mine':'']);
 
 		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
 		if(FlxG.keys.pressed.CONTROL){
-			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData+4)%8, noteSus, rightClick?1:0]);
+			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData+4)%8, noteSus, rightClick?'mine':'']);
 		}
 
 		updateGrid();

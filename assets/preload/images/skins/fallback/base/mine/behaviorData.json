@@ -1,0 +1,14 @@
+{
+  "actsLike": "default",
+  "scale": 0.7,
+  "antialiasing": true,
+  "hasLong":false,
+
+  "arguments": {
+      "spritesheet": "GRENADE",
+      "upPrefix": "GRENADE",
+      "leftPrefix": "GRENADE",
+      "rightPrefix": "GRENADE",
+      "downPrefix": "GRENADE",
+  }
+}

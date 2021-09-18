@@ -17,6 +17,8 @@ import Options;
 import Discord.DiscordClient;
 #end
 
+// TODO: turn this into a chart thing
+
 class SoundOffsetState extends MusicBeatState
 {
   public var playingAudio:Bool=false;
@@ -31,7 +33,7 @@ class SoundOffsetState extends MusicBeatState
     // Updating Discord Rich Presence
     DiscordClient.changePresence("Calibrating audio", null);
     #end
-    var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
+    var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuBG"));
 
     menuBG.color = 0xFFa271de;
     menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
@@ -66,6 +68,8 @@ class SoundOffsetState extends MusicBeatState
     metronome.screenCenter(XY);
     metronome.y += 100;
     add(metronome);
+
+    super.create();
   }
 
   override function beatHit(){
@@ -127,7 +131,7 @@ class SoundOffsetState extends MusicBeatState
     if(FlxG.keys.justPressed.ESCAPE){
       OptionUtils.options.noteOffset = currOffset;
       OptionUtils.saveOptions(OptionUtils.options);
-      FlxG.switchState(new OptionsMenu());
+      FlxG.switchState(new OptionsState());
     }
 
     if(!FlxG.keys.pressed.SHIFT){
