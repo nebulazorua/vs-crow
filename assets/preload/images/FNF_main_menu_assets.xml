@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="FNF_main_menu_assets.png">
+
+	<SubTexture name="story mode basic0000" x="0" y="0" width="615" height="130"/>
+	<SubTexture name="freeplay basic0000" x="0" y="131" width="615" height="130"/>
+	<SubTexture name="donate basic0000" x="0" y="262" width="615" height="130"/>
+	<SubTexture name="options basic0000" x="0" y="393" width="615" height="130"/>
+
+	<SubTexture name="story mode white0000" x="616" y="0" width="615" height="130"/>
+	<SubTexture name="freeplay white0000" x="616" y="131" width="615" height="130"/>
+	<SubTexture name="donate white0000" x="616" y="262" width="615" height="130"/>
+	<SubTexture name="options white0000" x="616" y="393" width="615" height="130"/>
+
+</TextureAtlas>
