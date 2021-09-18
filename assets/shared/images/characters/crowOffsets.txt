@@ -7,6 +7,6 @@ singUPmiss -11 28
 singLEFTmiss 26 20
 singRIGHTmiss -45 30
 singDOWNmiss -30 -18
-firstDeath -30 11
-deathLoop 71 11
-deathConfirm 71 10
+firstDeath -10 11
+deathLoop 91 11
+deathConfirm 91 10
