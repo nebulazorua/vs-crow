@@ -123,6 +123,8 @@ class Note extends NoteGraphic
 					prevNote.scale.y *= Conductor.stepCrochet/100*1.5*PlayState.getFNFSpeed(strumTime);
 				prevNote.updateHitbox();
 			}
+
+			centerOrigin();
 		}
 	}
 

@@ -1550,11 +1550,10 @@ class PlayState extends MusicBeatState
 				var noteType:String='';
 				if(songNotes[3]==1)
 					noteType='mine';
-				else if(songNotes[3]!=null && Std.isOfType(songNotes[3],'String') )
+				else if(Std.isOfType(songNotes[3],String) )
 					noteType=songNotes[3];
 
-
-				trace(noteType);
+				trace(noteType,songNotes[3],Std.isOfType(songNotes[3],String));
 
 				var swagNote:Note = new Note(daStrumTime, daNoteData, 'default', noteType, noteModifier, oldNote, false, getPosFromTime(daStrumTime));
 				swagNote.sustainLength = songNotes[2];
