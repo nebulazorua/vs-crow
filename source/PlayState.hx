@@ -1550,7 +1550,7 @@ class PlayState extends MusicBeatState
 				var noteType:String='';
 				if(songNotes[3]==1)
 					noteType='mine';
-				else if(songNotes[3]!=null && Std.isOfType(songNotes[2],'String') )
+				else if(songNotes[3]!=null && Std.isOfType(songNotes[3],'String') )
 					noteType=songNotes[3];
 
 
