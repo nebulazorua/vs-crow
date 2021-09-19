@@ -2477,6 +2477,7 @@ class PlayState extends MusicBeatState
 							for(daNote in susNoteLanes[idx]){
 								if(daNote.isSustainNote && daNote.canBeHit && !daNote.wasGoodHit){
 									noteHit(daNote);
+									playableCharacter.holdTimer=0;
 								}
 							}
 						}
