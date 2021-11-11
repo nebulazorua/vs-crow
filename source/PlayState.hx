@@ -1331,7 +1331,7 @@ class PlayState extends MusicBeatState
 	function startCountdown():Void
 	{
 		if(!currentOptions.pollingInput){
-			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN,handleInput);
+			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN,pressInput);
 			FlxG.stage.addEventListener(KeyboardEvent.KEY_UP,releaseInput);
 		}
 		inCutscene = false;
@@ -1553,7 +1553,6 @@ class PlayState extends MusicBeatState
 				else if(Std.isOfType(songNotes[3],String) )
 					noteType=songNotes[3];
 
-				trace(noteType,songNotes[3],Std.isOfType(songNotes[3],String));
 
 				var swagNote:Note = new Note(daStrumTime, daNoteData, 'default', noteType, noteModifier, oldNote, false, getPosFromTime(daStrumTime));
 				swagNote.sustainLength = songNotes[2];
@@ -2265,7 +2264,6 @@ class PlayState extends MusicBeatState
 					daNote.y = getYPosition(daNote);
 
 					if(currentOptions.downScroll){
-
 						if(daNote.isSustainNote && (!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit) && daNote.y-daNote.offset.y*daNote.scale.y+daNote.height >= brr)
 							{
 								var swagRect = new FlxRect(0,0,daNote.frameWidth,daNote.frameHeight);
@@ -2831,7 +2829,7 @@ class PlayState extends MusicBeatState
 		});
 	}
 
-	private function handleInput(event:KeyboardEvent){
+	private function pressInput(event:KeyboardEvent){
 		var bindData = [
 			OptionUtils.getKey(Control.LEFT),
 			OptionUtils.getKey(Control.DOWN),
@@ -3445,7 +3443,7 @@ class PlayState extends MusicBeatState
 		#end
 		Cache.Clear();
 		if(!currentOptions.pollingInput){
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN,handleInput);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN,pressInput);
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP,releaseInput);
 		}
 		return super.switchTo(next);
