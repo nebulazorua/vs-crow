@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' X Nefarious" file="FNFXNefarious" packageName="com.mariodevs.xnefarious" package="com.mariodevs.xnefarious" main="Main" version="0.2.7.1" company="ninjamuffin99" />
+	<app title="Friday Night Funkin': Andromeda Engine" file="Funkin" packageName="com.ninjamuffin99.funkin" package="com.ninjamuffin99.funkin" main="Main" version="0.2.7.1" company="ninjamuffin99" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -18,7 +18,7 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
+	<window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="false" />
 
 	<!--HTML5-specific-->
 	<window if="html5" resizable="true" />
@@ -47,7 +47,28 @@
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
+	<!--
+		Andromeda Engine defines
+		Comment/Uncomment these depending on what you want for your mod
+
+		NOTE: if you use FORCED_JUDGE and want your own judgement windows, make sure to set the preset in EngineData.hx!
+	-->
+	<define name="HAXEFLIXEL_LOGO"/> <!--Allows the Haxeflixel watermark to show on startup when compiled as release;.-->
+	<!-- <define name="NO_BOTPLAY" unless="debug"/> --> <!--Disables the ability to use botplay-->
+	<!-- <define name="DISABLE_CHART_EDITOR" unless="debug"/> -->  <!--Disables the ability to use the chart editor ingame-->
+	<!-- <define name="DISABLE_CHARACTER_EDITOR" unless="debug"/> -->  <!--Disables the ability to use the character editor ingame-->
+	<!-- <define name="NO_FREEPLAY_MODS"/> --> <!--Disables the ability to change freeplay modifiers (CMod, MMod, XMod, NoFail)-->
+	<!-- <define name="FORCE_LUA_MODCHARTS"/> --> <!--Disables the ability to turn off lua modcharts-->
+	<!-- <define name="FORCED_JUDGE"/> -->  <!--Disables the ability to change judgement window.-->
+	<!-- <define name="GOTO_CHAR_EDITOR" if="debug"/> --> <!--Makes it so you go straight to the character editor when compiling. Mainly just for testing-->
+	<!-- <define name="ALLOW_SET_STARTPOS"/> --> <!--Enables the ability to set a start pos from the pause menu-->
+
+
+	<define name="ALLOW_SET_STARTPOS" if="debug"/>
+
+
 	<section if="PRELOAD_ALL">
+		<library name="characters"    preload="true" />
 		<library name="songs"    preload="true" />
 		<library name="shared"   preload="true" />
 		<library name="tutorial" preload="true" />
@@ -60,6 +81,7 @@
 	</section>
 
 	<section if="NO_PRELOAD_ALL">
+		<library name="characters"    preload="false" />
 		<library name="songs"    preload="false" />
 		<library name="shared"   preload="false" />
 		<library name="tutorial" preload="false" />
@@ -70,6 +92,8 @@
 		<library name="week5"    preload="false" />
 		<library name="week6"    preload="false" />
 	</section>
+
+	<assets path="assets/characters" library="characters" />
 
 	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
@@ -101,7 +125,7 @@
 		THEN UHHH I USED THE NAME OF THE FONT WITH SETFORMAT() ON THE TEXT!!!
 		NOT USING A DIRECT THING TO THE ASSET!!!
 	-->
-	<assets path="assets/fonts" embed='true'/>
+	<assets path="assets/fonts"/>
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />

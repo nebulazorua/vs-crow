@@ -2,13 +2,23 @@
   "actsLike": "default",
   "scale": 0.7,
   "antialiasing": true,
-  "hasLong":false,
-
   "arguments": {
-      "spritesheet": "GRENADE",
-      "upPrefix": "GRENADE",
-      "leftPrefix": "GRENADE",
-      "rightPrefix": "GRENADE",
-      "downPrefix": "GRENADE",
+      "noHolds": true,
+      "notes":{
+        "sheet": "MINES",
+        "up":{
+          "prefix": "mine"
+        },
+        "down":{
+          "prefix": "mine"
+        },
+        "left":{
+          "prefix": "mine"
+        },
+        "right":{
+          "prefix": "mine"
+        }
+
+      }
   }
 }

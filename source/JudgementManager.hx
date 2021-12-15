@@ -10,11 +10,12 @@ import lime.utils.Assets;
 typedef JudgementInfo =
 {
 	var comboBreakJudgements:Array<String>;
-	var judgementHealth:AnonType;
-	var judgementAccuracy:AnonType;
-	var judgementScores:AnonType;
-	var judgementWindows:AnonType;
+	var judgementHealth:Any;
+	var judgementAccuracy:Any;
+	var judgementScores:Any;
+	var judgementWindows:Any;
 	var judgements:Array<String>;
+	@:optional var wifeZeroPoint:Null<Float>;
 }
 
 class JudgementData {
@@ -25,9 +26,13 @@ class JudgementData {
 	public var judgementWindows:Map<String,Int>=[];
 	public var judgements:Array<String>=[];
 	public var judgementWindowsOrder:Array<String>=[];
+	public var wifeZeroPoint:Float = 65;
 	public function new(info:JudgementInfo){
 		for(judge in info.judgements){
-			judgements.push(judge);
+			if(EngineData.validJudgements.contains(judge))
+				if(judge!='epic' || judge=='epic' && EngineData.options.useEpic)
+					judgements.push(judge);
+
 		}
 		for(judge in info.comboBreakJudgements){
 			comboBreakJudgements.push(judge);
@@ -43,25 +48,30 @@ class JudgementData {
 			}
 		}
 
+
 		for(judge in judgementWindows.keys()){
 			judgementWindowsOrder.push(judge);
 		}
 		judgementWindowsOrder.sort((a,b)->Std.int(judgementWindows.get(a)-judgementWindows.get(b)));
+
+		wifeZeroPoint=info.wifeZeroPoint==null?judgementWindows.get(judgementWindowsOrder[judgementWindowsOrder.length-1])/2:info.wifeZeroPoint;
 	}
 }
 
 class JudgementManager
 {
+	public static var judgementDisplayNames:Map<String,String> = [
+		"epic"=>"Epic",
+		"sick"=>"Sick",
+		"good"=>"Good",
+		"bad"=>"Bad",
+		"shit"=>"Shit",
+		"miss"=>"Miss"
+	];
   var judgeData:JudgementData;
+	var highestAcc:Float = 0;
 	public static var rawJudgements:AnonType;
-	public static var defaultJudgement = new JudgementData(Json.parse('{
-			"comboBreakJudgements":[],
-			"judgementHealth": {"sick":1.2,"good":1.2, "bad":1.2, "shit":1.2,"miss":-2.375 },
-			"judgements": ["sick","good","bad","shit"],
-			"judgementAccuracy": {"sick": 100, "good":50, "bad": -25, "shit": -50, "miss": -100},
-			"judgementScores": {"sick":350,"good":200,"bad":100,"shit":50,"miss":-10},
-			"judgementWindows": {"sick":32, "good":123, "bad":148, "shit":166}
-	}'));// vanilla
+	public static var defaultJudgement = new JudgementData(EngineData.defaultJudgementData);
 	public var judgementCounter:Map<String,Int> = [];
 	public static function dataExists(name:String){
 		rawJudgements = Json.parse(Assets.getText(Paths.json("judgements")));
@@ -70,6 +80,15 @@ class JudgementManager
 		}
 		return false;
 	}
+
+	public function hasJudge(name:String){
+		return judgeData.judgementWindows.exists(name);
+	}
+
+	public function getWifeZero(){
+		return judgeData.wifeZeroPoint;
+	};
+
 	public static function getDataByName(name:String){
 		rawJudgements = Json.parse(Assets.getText(Paths.json("judgements")));
 		if(rawJudgements!=null){
@@ -81,15 +100,26 @@ class JudgementManager
 	}
 
 	public function getHighestWindow(){
+		return getJudgementWindow(judgeData.judgementWindowsOrder[judgeData.judgementWindowsOrder.length-1]);
+	}
+
+	public function getLowestWindow(){
+		return getJudgementWindow(judgeData.judgementWindowsOrder[0]);
+	}
+
+	public function getHighestAccJudgement(){
 		var n:Null<Float>=null;
-		for(judgement in judgeData.judgementWindows.keys()){
-			var window = judgeData.judgementWindows.get(judgement);
-			if(n==null || window>n){
-				n=window;
+		var name:String='epic';
+		for(judgement in judgeData.judgementAccuracy.keys()){
+			var acc = judgeData.judgementAccuracy.get(judgement);
+			if(n==null || acc>n){
+				n=acc;
+				name=judgement;
 			}
 		}
-		return n==null?166:n;
+		return name;
 	}
+
 
   public function new(data:JudgementData){
     judgeData=data;
@@ -98,13 +128,15 @@ class JudgementManager
 			judgementCounter.set(judge,0);
 		}
 		judgementCounter.set("miss",0);
+
+		highestAcc=judgeData.judgementAccuracy.get(getHighestAccJudgement());
   }
 
 	public function getJudgementWindow(judge:String):Float{
-		for(judgement in judgeData.judgementWindows.keys()){
-			if(judgement==judge)
-				return judgeData.judgementWindows.get(judgement);
+		if(judgeData.judgementWindows.exists(judge)){
+			return judgeData.judgementWindows.get(judge);
 		}
+
 		return judgeData.judgementWindows.get('shit');
 	}
 
@@ -113,39 +145,33 @@ class JudgementManager
   }
 
   public function shouldComboBreak(judge:String):Bool{
-		trace(judge);
-    for(judgement in judgeData.comboBreakJudgements){
-      if(judgement==judge){
-        return true;
-      }
-    }
-    return judge=="miss"?true:false;
+		for(judgement in judgeData.comboBreakJudgements){
+			if(judgement==judge){
+				return true;
+			}
+		}
+
+    return judge=='miss'?true:false;
   }
 
   public function getJudgementHealth(judge:String):Float{
-    for(judgement in judgeData.judgementHealth.keys()){
-      if(judgement==judge){
-        return (judgeData.judgementHealth.get(judgement)/100)*2;
-      }
-    }
+		if(judgeData.judgementHealth.exists(judge)){
+			return (judgeData.judgementHealth.get(judge)/100)*2;
+		}
     return (judgeData.judgementHealth.get("miss")/100)*2;
   }
 
   public function getJudgementAccuracy(judge:String):Float{
-    for(judgement in judgeData.judgementAccuracy.keys()){
-      if(judgement==judge){
-        return judgeData.judgementAccuracy.get(judgement)/100;
-      }
-    }
-    return judgeData.judgementAccuracy.get("miss")/100;
+		if(judgeData.judgementAccuracy.exists(judge)){
+			return judgeData.judgementAccuracy.get(judge)/highestAcc;
+		}
+    return judgeData.judgementAccuracy.get("miss")/highestAcc;
   }
 
   public function getJudgementScore(judge:String):Int{
-    for(judgement in judgeData.judgementScores.keys()){
-      if(judgement==judge){
-        return judgeData.judgementScores.get(judgement);
-      }
-    }
+		if(judgeData.judgementScores.exists(judge)){
+			return judgeData.judgementScores.get(judge);
+		}
     return judgeData.judgementScores.get("miss");
   }
 

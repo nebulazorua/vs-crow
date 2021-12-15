@@ -8,8 +8,10 @@ import sys.io.File;
 import flash.display.BitmapData;
 import Sys;
 import sys.FileSystem;
+import haxe.Json;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-
+import ui.*;
+using StringTools;
 class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
@@ -55,49 +57,104 @@ class Paths
 		return 'assets/$file';
 	}
 
-	// SLIGHTLY BASED ON https://github.com/SuperMakerPlayer/FunkinForever/blob/master/source/ForeverTools.hx
+	public static function getDirs(library:String,?base='assets/images'){
+		var folders:Array<String>=[];
+		// TODO: openflassets shit maybe?
+		for(folder in FileSystem.readDirectory('${base}/${library}') ){
+			if(!folder.contains(".") && FileSystem.isDirectory('${base}/${library}/${folder}')){
+				folders.push(folder);
+			}
+		}
+		return folders;
+	}
+
+	// SLIGHTLY BASED ON https://github.com/Yoshubs/Forever-Engine/blob/master/source/ForeverTools.hx
 	// THANKS YOU GUYS ARE THE FUNKIN BEST
 	// IF YOU'RE READING THIS AND YOU HAVENT HEARD OF IT:
 	// TRY FOREVER ENGINE, SERIOUSLY!
 
-	public static function noteSkinPath(key:String, ?library:String='skins', ?skin:String='default', modifier:String='base', noteType:String='', ?useOpenFLAssetSystem:Bool=true):String
+	public static function noteskinManifest(skin:String,?library:String='skins'):Note.SkinManifest{
+		var path = 'assets/images/${library}/${skin}/metadata.json';
+		if(OpenFlAssets.exists(path)){
+			return Json.parse(OpenFlAssets.getText(path));
+		}else if(FileSystem.exists(path)){
+			return Json.parse(File.getContent(path));
+		}
+		return Json.parse(File.getContent('assets/images/${library}/fallback/metadata.json'));
+	}
+
+	public static function noteSkinPath(key:String, ?library:String='skins', ?skin:String='default', modifier:String='base', noteType:String='default', ?useOpenFLAssetSystem:Bool=true):String
 	{
 		var internalName = '${library}-${skin}-${modifier}-${noteType}-${key}';
 		if(Cache.pathCache.exists(internalName)){
 			return Cache.pathCache.get(internalName);
 		}
-		// I FUCKING HATE THIS!!
+
+		var pathsNotetype:Array<String> = [
+			'assets/images/${library}/${skin}/${modifier}/${noteType}/${key}',
+			'assets/images/${library}/${skin}/base/${noteType}/${key}',
+			'assets/images/${library}/default/base/${noteType}/${key}',
+			'assets/images/skins/fallback/${modifier}/${noteType}/${key}',
+			'assets/images/skins/fallback/base/${noteType}/${key}',
+		];
+
+		var pathsNoNotetype:Array<String> = [
+			'assets/images/${library}/${skin}/${modifier}/${key}',
+			'assets/images/${library}/${skin}/base/${key}',
+			'assets/images/${library}/default/base/${key}',
+			'assets/images/skins/default/base/${key}',
+			'assets/images/skins/fallback/${modifier}/${key}',
+			'assets/images/skins/fallback/base/${key}',
+		];
+		var idx = 0;
+		var path:String='';
 		if(useOpenFLAssetSystem){
-			var path = 'assets/images/${library}/${skin}/${modifier}/${noteType}/${key}';
-			if(!OpenFlAssets.exists(path)){
-				path = 'assets/images/${library}/${skin}/${modifier}/${key}';
-				if(!OpenFlAssets.exists(path)){
-					path = 'assets/images/${library}/fallback/${modifier}/${key}';
-					if(!OpenFlAssets.exists(path)){
-						path = 'assets/images/${library}/fallback/base/$key';
-						if(!OpenFlAssets.exists(path)){
-							return noteSkinPath(key,library,skin,modifier,noteType,false);
-						}
-					}
+			if(noteType!='' && noteType!='default' && noteType!='receptor'){
+				while(idx<pathsNotetype.length){
+					path = pathsNotetype[idx];
+					if(OpenFlAssets.exists(path))
+						break;
+
+					idx++;
+				}
+				trace(path);
+			}else{
+				while(idx<pathsNoNotetype.length){
+					path = pathsNoNotetype[idx];
+					if(FileSystem.exists(path))
+						break;
+
+					idx++;
 				}
 			}
+
+			if(!OpenFlAssets.exists(path)){
+				return noteSkinPath(key,library,skin,modifier,noteType,false);
+			}
+
 			Cache.pathCache.set(internalName,path);
 			return path;
 		}else{
-			var path = 'assets/images/${library}/${skin}/${modifier}/${noteType}/${key}';
-			if(!FileSystem.exists(path)){
-				path = 'assets/images/${library}/${skin}/${modifier}/${key}';
-				if(!FileSystem.exists(path)){
-					path = 'assets/images/${library}/fallback/${modifier}/$key';
-					if(!FileSystem.exists(path)){
-						path = 'assets/images/${library}/fallback/base/$key';
-						if(!FileSystem.exists(path)){
-							Cache.pathCache.set(internalName,'assets/images/skins/fallback/base/$key');
-							return 'assets/images/skins/fallback/base/$key';
-						}
-					}
+			if(noteType!='' && noteType!='default'){
+				while(idx<pathsNotetype.length){
+					path = pathsNotetype[idx];
+					if(FileSystem.exists(path))
+						break;
+
+					idx++;
 				}
+				trace(path);
+			}else{
+				while(idx<pathsNoNotetype.length){
+					path = pathsNoNotetype[idx];
+					if(FileSystem.exists(path))
+						break;
+
+					idx++;
+				}
+				trace(path);
 			}
+
 			Cache.pathCache.set(internalName,path);
 			return path;
 		}
@@ -107,23 +164,26 @@ class Paths
 		if(useOpenFLAssetSystem){
 			var pngPath = noteSkinPath('${key}.png',library,skin,modifier,noteType,useOpenFLAssetSystem);
 			if(OpenFlAssets.exists(pngPath)){
-
 				return pngPath;
 			}else{
-				return noteSkinImage(key,library,skin,modifier,false);
+				return noteSkinImage(key,library,skin,modifier,noteType,false);
 			}
 		}else{
 			var bitmapName:String = '${key}-${library}-${skin}-${modifier}-${noteType}';
 			var doShit=FlxG.bitmap.checkCache(bitmapName);
 			if(!doShit){
 				var pathPng = noteSkinPath('${key}.png',library,skin,modifier,noteType,useOpenFLAssetSystem);
+				var image:Null<BitmapData>=null;
 				if(FileSystem.exists(pathPng)){
 					doShit=true;
-					FlxG.bitmap.add(BitmapData.fromFile(pathPng),false,bitmapName);
+					image = BitmapData.fromFile(pathPng);
+					FlxG.bitmap.add(image,false,bitmapName);
 				}
-				if(doShit)
-					return FlxG.bitmap.get(bitmapName);
-			}
+				if(image!=null)
+					return image;
+			}else
+				return FlxG.bitmap.get(bitmapName);
+
 		}
 		return image('skins/fallback/base/$key','preload');
 	}
@@ -134,7 +194,7 @@ class Paths
 			if(OpenFlAssets.exists(path)){
 				return OpenFlAssets.getText(path);
 			}else{
-				return noteSkinText(key,library,skin,modifier,false);
+				return noteSkinText(key,library,skin,modifier,noteType,false);
 			}
 		}else{
 			var path = noteSkinPath('${key}',library,skin,modifier,noteType,useOpenFLAssetSystem);
@@ -142,7 +202,7 @@ class Paths
 				return Cache.getText(path);
 			}
 		}
-		return OpenFlAssets.getText(file('skins/fallback/base/$key','preload'));
+		return OpenFlAssets.getText(file('images/skins/fallback/base/$key','preload'));
 	}
 
 	public static function noteSkinAtlas(key:String, ?library:String='skins', ?skin:String='default', modifier:String='base', noteType:String='', ?useOpenFLAssetSystem:Bool=true):Null<FlxAtlasFrames>{
@@ -156,12 +216,12 @@ class Paths
 					return getSparrowAtlas('skins/fallback/base/$key','preload');
 				}
 			}else{
-				return noteSkinAtlas(key,library,skin,modifier,false);
+				return noteSkinAtlas(key,library,skin,modifier,noteType,false);
 			}
 		}else{
 			var xmlData = Cache.getXML(noteSkinPath('${key}.xml',library,skin,modifier,noteType,useOpenFLAssetSystem));
 			if(xmlData!=null){
-				var bitmapName:String = '${key}-${library}-${skin}-${modifier}-${noteType}'; // TODO: GetKey func
+				var bitmapName:String = '${key}-${library}-${skin}-${modifier}-${noteType}';
 				var doShit=true;
 				if(!FlxG.bitmap.checkCache(bitmapName)){
 					doShit=false;
@@ -188,6 +248,11 @@ class Paths
 		return getPath('data/$key.txt', TEXT, library);
 	}
 
+	inline static public function dialogue(key:String, ?library:String)
+	{
+		return getPath('songs/$key.txt', TEXT, library);
+	}
+
 	inline static public function txtImages(key:String, ?library:String)
 	{
 		return getPath('images/$key.txt', TEXT, library);
@@ -201,6 +266,12 @@ class Paths
 	inline static public function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
+	}
+
+	inline static public function chart(key:String,?container:String, ?library:String)
+	{
+		if(container==null)container=key;
+		return getPath('songs/$container/$key.json', TEXT, library);
 	}
 
 	static public function sound(key:String, ?library:String)
@@ -220,12 +291,12 @@ class Paths
 
 	inline static public function voices(song:String)
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Voices.$SOUND_EXT';
+		return getPath('songs/${song.toLowerCase()}/Voices.$SOUND_EXT', MUSIC, null);
 	}
 
 	inline static public function inst(song:String)
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
+		return getPath('songs/${song.toLowerCase()}/Inst.$SOUND_EXT', MUSIC, null);
 	}
 
 	inline static public function lua(script:String,?library:String){
@@ -233,7 +304,7 @@ class Paths
 	}
 
 	inline static public function modchart(song:String,?library:String){
-		return getPath('data/$song/modchart.lua',TEXT,library);
+		return getPath('songs/$song/modchart.lua',TEXT,library);
 	}
 
 	inline static public function image(key:String, ?library:String)
@@ -244,6 +315,12 @@ class Paths
 	inline static public function font(key:String)
 	{
 		return 'assets/fonts/$key';
+	}
+
+
+	inline static public function characterSparrow(key:String, ?library:String)
+	{
+		return FlxAtlasFrames.fromSparrow(getPath('characters/images/$key.png', IMAGE, library), file('characters/images/$key.xml', library));
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
