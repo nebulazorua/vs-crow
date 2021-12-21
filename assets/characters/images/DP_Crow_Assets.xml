@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="DP_Crow_Assets.png">
+	<!-- Created with Adobe Animate version 21.0.4.39603 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Crow Down0000" x="0" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0001" x="0" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0002" x="0" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0003" x="541" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0004" x="541" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0005" x="1082" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0006" x="1082" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0007" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0008" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0009" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0010" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0011" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0012" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0013" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down0014" x="1623" y="0" width="541" height="379"/>
+	<SubTexture name="Crow Down Fail0000" x="2828" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0001" x="2828" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0002" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0003" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0004" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0005" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0006" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0007" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0008" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0009" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0010" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0011" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0012" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0013" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Down Fail0014" x="3361" y="392" width="533" height="413"/>
+	<SubTexture name="Crow Idle0000" x="2164" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0001" x="2164" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0002" x="2164" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0003" x="2757" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0004" x="2757" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0005" x="3350" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0006" x="3350" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0007" x="3943" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0008" x="3943" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0009" x="4536" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0010" x="4536" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0011" x="5129" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0012" x="5129" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0013" x="4536" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Idle0014" x="4536" y="0" width="593" height="357"/>
+	<SubTexture name="Crow Left0000" x="5722" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0001" x="5722" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0002" x="6325" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0003" x="6325" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0004" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0005" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0006" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0007" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0008" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0009" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0010" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0011" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0012" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0013" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left0014" x="6928" y="0" width="603" height="330"/>
+	<SubTexture name="Crow Left Fail0000" x="3894" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0001" x="3894" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0002" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0003" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0004" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0005" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0006" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0007" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0008" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0009" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0010" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0011" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0012" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0013" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Left Fail0014" x="4501" y="392" width="607" height="352"/>
+	<SubTexture name="Crow Right0000" x="7531" y="0" width="336" height="392"/>
+	<SubTexture name="Crow Right0001" x="7531" y="0" width="336" height="392"/>
+	<SubTexture name="Crow Right0002" x="0" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0003" x="0" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0004" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0005" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0006" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0007" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0008" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0009" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0010" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0011" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0012" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0013" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right0014" x="336" y="392" width="336" height="392"/>
+	<SubTexture name="Crow Right Fail0000" x="5108" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0001" x="5108" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0002" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0003" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0004" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0005" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0006" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0007" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0008" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0009" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0010" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0011" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0012" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0013" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Right Fail0014" x="5444" y="392" width="336" height="408"/>
+	<SubTexture name="Crow Up0000" x="672" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0001" x="1211" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0002" x="1211" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0003" x="1750" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0004" x="1750" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0005" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0006" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0007" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0008" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0009" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0010" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0011" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0012" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0013" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0014" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up0015" x="2289" y="392" width="539" height="434"/>
+	<SubTexture name="Crow Up Fail0000" x="5780" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0001" x="5780" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0002" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0003" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0004" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0005" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0006" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0007" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0008" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0009" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0010" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0011" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0012" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0013" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0014" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Crow Up Fail0015" x="6309" y="392" width="529" height="449"/>
+	<SubTexture name="Death Animation0000" x="6838" y="392" width="747" height="583"/>
+	<SubTexture name="Death Animation0001" x="0" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0002" x="747" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0003" x="1494" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0004" x="2241" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0005" x="2988" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0006" x="3735" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0007" x="4482" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0008" x="4482" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0009" x="5229" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0010" x="5229" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0011" x="3735" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0012" x="3735" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0013" x="5976" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0014" x="5976" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0015" x="4482" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0016" x="4482" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0017" x="6723" y="975" width="747" height="583"/>
+	<SubTexture name="Death Animation0018" x="0" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0019" x="0" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0020" x="747" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0021" x="1494" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0022" x="2241" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0023" x="2988" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0024" x="3735" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0025" x="4482" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0026" x="5229" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0027" x="5976" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0028" x="6723" y="1558" width="747" height="583"/>
+	<SubTexture name="Death Animation0029" x="0" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0030" x="747" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0031" x="1494" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0032" x="2241" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0033" x="2988" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0034" x="3735" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0035" x="4482" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0036" x="5229" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0037" x="5976" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0038" x="6723" y="2141" width="747" height="583"/>
+	<SubTexture name="Death Animation0039" x="0" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Animation0040" x="747" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Animation0041" x="1494" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Animation0042" x="2241" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Animation0043" x="2988" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Animation0044" x="3735" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Animation0045" x="4482" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Animation0046" x="4482" y="2724" width="747" height="583"/>
+	<SubTexture name="Death Confirm0000" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0001" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0002" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0003" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0004" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0005" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0006" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0007" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0008" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0009" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0010" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0011" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0012" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0013" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0014" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0015" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0016" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0017" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0018" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0019" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0020" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0021" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0022" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0023" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0024" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0025" x="5229" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0026" x="5750" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0027" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0028" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0029" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0030" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0031" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0032" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Confirm0033" x="6271" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0000" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0001" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0002" x="7313" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0003" x="7313" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0004" x="0" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0005" x="0" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0006" x="521" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0007" x="521" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0008" x="1042" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0009" x="1042" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0010" x="1563" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0011" x="1563" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0012" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0013" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0014" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0015" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0016" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0017" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0018" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0019" x="7313" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0020" x="7313" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0021" x="0" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0022" x="0" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0023" x="521" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0024" x="521" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0025" x="1042" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0026" x="1042" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0027" x="1563" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0028" x="1563" y="3307" width="521" height="204"/>
+	<SubTexture name="Death Loop0029" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0030" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0031" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0032" x="6792" y="2724" width="521" height="204"/>
+	<SubTexture name="Death Loop0033" x="6792" y="2724" width="521" height="204"/>
+</TextureAtlas>

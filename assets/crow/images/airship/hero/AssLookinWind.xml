@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="AssLookinWind.png">
+
+	<SubTexture name="wind0000" x="0" y="0" width="569" height="367"/>
+	<SubTexture name="wind0001" x="0" y="0" width="569" height="367"/>
+	<SubTexture name="wind0002" x="0" y="368" width="569" height="367"/>
+	<SubTexture name="wind0003" x="0" y="736" width="569" height="367"/>
+	<SubTexture name="wind0004" x="0" y="736" width="569" height="367"/>
+	<SubTexture name="wind0005" x="0" y="1104" width="569" height="367"/>
+	<SubTexture name="wind0006" x="570" y="0" width="569" height="367"/>
+	<SubTexture name="wind0007" x="570" y="368" width="569" height="367"/>
+	<SubTexture name="wind0008" x="570" y="368" width="569" height="367"/>
+	<SubTexture name="wind0009" x="570" y="736" width="569" height="367"/>
+	<SubTexture name="wind0010" x="570" y="1104" width="569" height="367"/>
+	
+</TextureAtlas>

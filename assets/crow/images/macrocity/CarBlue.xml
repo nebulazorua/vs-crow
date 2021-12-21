@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="CarBlue.png">
+	<SubTexture name="CarBlue0000" x="0" y="0" width="473" height="307"/>
+	<SubTexture name="CarBlue0001" x="0" y="0" width="473" height="307"/>
+	<SubTexture name="CarBlue0002" x="0" y="308" width="473" height="307"/>
+	<SubTexture name="CarBlue0003" x="0" y="616" width="473" height="307"/>
+	<SubTexture name="CarBlue0004" x="0" y="616" width="473" height="307"/>
+	<SubTexture name="CarBlue0005" x="0" y="924" width="473" height="307"/>
+	<SubTexture name="CarBlue0006" x="0" y="1232" width="473" height="307"/>
+	<SubTexture name="CarBlue0007" x="0" y="1232" width="473" height="307"/>
+	<SubTexture name="CarBlue0008" x="0" y="0" width="473" height="307"/>
+	<SubTexture name="CarBlue0009" x="0" y="308" width="473" height="307"/>
+	<SubTexture name="CarBlue0010" x="0" y="308" width="473" height="307"/>
+	<SubTexture name="CarBlue0011" x="0" y="616" width="473" height="307"/>
+	<SubTexture name="CarBlue0012" x="0" y="924" width="473" height="307"/>
+	<SubTexture name="CarBlue0013" x="0" y="924" width="473" height="307"/>
+	<SubTexture name="CarBlue0014" x="0" y="1232" width="473" height="307"/>
+</TextureAtlas>

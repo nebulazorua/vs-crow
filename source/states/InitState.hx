@@ -78,7 +78,7 @@ class InitState extends FlxUIState {
     FlxG.sound.muteKeys=null;
     FlxG.sound.volumeUpKeys=null;
     FlxG.sound.volumeDownKeys=null;
-    FlxG.sound.volume = FlxG.save.data.volume;
+    FlxG.sound.volume = FlxG.save.data.volume==null?1:FlxG.save.data.volume;
 
     FlxG.sound.volumeHandler = function(volume:Float){
       FlxG.save.data.volume=volume;

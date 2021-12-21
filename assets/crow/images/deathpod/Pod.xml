@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="DeathPodFLA.png">
+	<!-- Created with Adobe Animate version 21.0.4.39603 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="DeathPod Open0000" x="0" y="0" width="1300" height="950"/>
+	<SubTexture name="DeathPod Open0001" x="0" y="0" width="1300" height="950"/>
+	<SubTexture name="DeathPod Open0002" x="1300" y="0" width="1300" height="950"/>
+	<SubTexture name="DeathPod Open0003" x="1300" y="0" width="1300" height="950"/>
+	<SubTexture name="DeathPod Open0004" x="2600" y="0" width="1300" height="950"/>
+	<SubTexture name="DeathPod Open0005" x="2600" y="0" width="1300" height="950"/>
+	<SubTexture name="DeathPod Open0006" x="0" y="950" width="1300" height="950"/>
+	<SubTexture name="DeathPod Open0007" x="0" y="950" width="1300" height="950"/>
+</TextureAtlas>

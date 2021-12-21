@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="FireTHing.png">
+	<!-- Created with Adobe Animate version 21.0.4.39603 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="FireThing0000" x="0" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0001" x="450" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0002" x="900" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0003" x="1350" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0004" x="1800" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0005" x="2250" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0006" x="2700" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0007" x="3150" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0008" x="3600" y="0" width="450" height="577"/>
+	<SubTexture name="FireThing0009" x="0" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0010" x="450" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0011" x="900" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0012" x="1350" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0013" x="0" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0014" x="1800" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0015" x="2250" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0016" x="2700" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0017" x="3150" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0018" x="3600" y="577" width="450" height="577"/>
+	<SubTexture name="FireThing0019" x="0" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0020" x="450" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0021" x="900" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0022" x="1350" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0023" x="1800" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0024" x="1800" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0025" x="1800" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0026" x="1800" y="1154" width="450" height="577"/>
+	<SubTexture name="FireThing0027" x="1800" y="1154" width="450" height="577"/>
+	
+	<SubTexture name="Loop0000" x="0" y="577" width="450" height="577"/>
+	<SubTexture name="Loop0001" x="450" y="577" width="450" height="577"/>
+	<SubTexture name="Loop0002" x="900" y="577" width="450" height="577"/>
+	<SubTexture name="Loop0003" x="1350" y="577" width="450" height="577"/>
+</TextureAtlas>

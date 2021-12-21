@@ -20,66 +20,28 @@ import Shaders;
 
 class Stage extends FlxTypedGroup<FlxBasic> {
   public static var songStageMap:Map<String,String> = [
-    "pico"=>"philly",
-    "philly-nice"=>"philly",
-    "blammed"=>"philly",
-    "spookeez"=>"spooky",
-    "south"=>"spooky",
-    "monster"=>"spooky",
-    "satin-panties"=>"limo",
-    "high"=>"limo",
-    "milf"=>"limo",
-    "eggnog"=>"mall",
-    "cocoa"=>"mall",
-    "winter-horrorland"=>"mallEvil",
-    "senpai"=>"school",
-    "roses"=>"school",
-    "thorns"=>"schoolEvil",
-    "bopeebo"=>"stage",
-    "fresh"=>"stage",
-    "dadbattle"=>"stage",
+    "test"=>"stage",
     "tutorial"=>"stage",
   ];
 
   public static var stageNames:Array<String> = [
     "stage",
-    "spooky",
-    "philly",
-    "limo",
-    "mall",
-    "mallEvil",
-    "school",
-    "schoolEvil",
+    "macrocity",
+    "deathpod",
+    "airshipHero",
+    "airshipVillain",
     "blank"
   ];
 
   public var doDistractions:Bool = true;
 
-  // spooky bg
-  public var halloweenBG:FlxSprite;
-  var lightningStrikeBeat:Int = 0;
-	var lightningOffset:Int = 8;
-
-
-  // philly bg
-  public var lightFadeShader:BuildingEffect;
-  public var phillyCityLights:FlxTypedGroup<FlxSprite>;
-  public var phillyTrain:FlxSprite;
-  public var trainSound:FlxSound;
-  public var curLight:Int = 0;
-
-  public var trainMoving:Bool = false;
-	public var trainFrameTiming:Float = 0;
-
-	public var trainCars:Int = 8;
-	public var trainFinishing:Bool = false;
-	public var trainCooldown:Int = 0;
-
-  // limo bg
-  public var fastCar:FlxSprite;
-  public var limo:FlxSprite;
-  var fastCarCanDrive:Bool=true;
-
+  // macro city
+  var robotGoinLeft:Bool = false;
+  var robotGoin:Bool = false;
+  var fuckyoustupidbot:FlxSprite;
+  var clouds1:FlxSprite;
+  var clouds2:FlxSprite;
+  var clouds3:FlxSprite;
   // misc, general bg stuff
 
   public var bfPosition:FlxPoint = FlxPoint.get(770,450);
@@ -121,37 +83,29 @@ class Stage extends FlxTypedGroup<FlxBasic> {
     super.destroy();
   }
 
-  function lightningStrikeShit():Void
-  {
-    FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
-    halloweenBG.animation.play('lightning');
-
-    lightningOffset = FlxG.random.int(8, 24);
-
-    boyfriend.playAnim('scared', true);
-    gf.playAnim('scared', true);
-  }
-
-  function resetFastCar():Void
-  {
-    fastCar.x = -12600;
-    fastCar.y = FlxG.random.int(140, 250);
-    fastCar.velocity.x = 0;
-    fastCarCanDrive = true;
-  }
-
-  function fastCarDrive()
-  {
-    FlxG.sound.play(Paths.soundRandom('carPass', 0, 1), 0.7);
-
-    fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
-    fastCarCanDrive = false;
-    new FlxTimer().start(2, function(tmr:FlxTimer)
+  function robotMove():Void {
+    robotGoin=true;
+    robotGoinLeft = !robotGoinLeft;
+    fuckyoustupidbot.visible=true;
+    if(robotGoinLeft){
+      fuckyoustupidbot.x = 1600;
+      fuckyoustupidbot.velocity.x = -(FlxG.random.int(30, 60) / FlxG.elapsed);
+    }else{
+      fuckyoustupidbot.x = -1600;
+      fuckyoustupidbot.velocity.x = (FlxG.random.int(30, 60) / FlxG.elapsed);
+    }
+    new FlxTimer().start(7, function(tmr:FlxTimer)
     {
-      resetFastCar();
+      resetRobot();
     });
   }
 
+  function resetRobot() : Void {
+    robotGoin = false;
+    fuckyoustupidbot.velocity.x = 0;
+    fuckyoustupidbot.x = 12600;
+    fuckyoustupidbot.visible=false;
+  }
 
 
   public function setPlayerPositions(?p1:Character,?p2:Character,?gf:Character){
@@ -211,301 +165,138 @@ class Stage extends FlxTypedGroup<FlxBasic> {
     overlay.scrollFactor.set(0,0); // so the "overlay" layer stays static
 
     switch (stage){
-      case 'philly':
-        var bg:FlxSprite = new FlxSprite(-100).loadGraphic(Paths.image('philly/sky','week3'));
-        bg.scrollFactor.set(0.1, 0.1);
-        add(bg);
-
-        var city:FlxSprite = new FlxSprite(-10).loadGraphic(Paths.image('philly/city','week3'));
-        city.scrollFactor.set(0.3, 0.3);
-        city.setGraphicSize(Std.int(city.width * 0.85));
-        city.updateHitbox();
-        add(city);
-        lightFadeShader = new BuildingEffect();
-
-        //modchart.addCamEffect(rainShader);
-
-        phillyCityLights = new FlxTypedGroup<FlxSprite>();
-        add(phillyCityLights);
-
-        for (i in 0...5)
-        {
-                var light:FlxSprite = new FlxSprite(city.x).loadGraphic(Paths.image('philly/win' + i,'week3'));
-                light.scrollFactor.set(0.3, 0.3);
-                light.visible = false;
-                light.setGraphicSize(Std.int(light.width * 0.85));
-                light.updateHitbox();
-                light.antialiasing = true;
-                light.shader=lightFadeShader.shader;
-                phillyCityLights.add(light);
-        }
-
-        var streetBehind:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('philly/behindTrain','week3'));
-        add(streetBehind);
-
-        phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image('philly/train','week3'));
-        add(phillyTrain);
-
-        trainSound = new FlxSound().loadEmbedded(Paths.sound('train_passes'));
-        FlxG.sound.list.add(trainSound);
-
-        // var cityLights:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.win0.png);
-
-        var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic(Paths.image('philly/street','week3'));
-        add(street);
-
-        centerX = city.getMidpoint().x;
-        centerY = city.getMidpoint().y;
-      case 'spooky':
-        var hallowTex = Paths.getSparrowAtlas('halloween_bg','week2');
-
-        halloweenBG = new FlxSprite(-200, -100);
-        halloweenBG.frames = hallowTex;
-        halloweenBG.animation.addByPrefix('idle', 'halloweem bg0');
-        halloweenBG.animation.addByPrefix('lightning', 'halloweem bg lightning strike', 24, false);
-        halloweenBG.animation.play('idle');
-        halloweenBG.antialiasing = true;
-        add(halloweenBG);
-
-        centerX = halloweenBG.getMidpoint().x;
-        centerY = halloweenBG.getMidpoint().y;
-
-      case 'school':
-          gfVersion = 'gf-pixel';
-          camOffset.x = 200;
-          camOffset.y = 200;
-
-          bfPosition.x += 200;
-          bfPosition.y += 220;
-          gfPosition.x += 180;
-          gfPosition.y += 300;
-
-          var bgSky = new FlxSprite().loadGraphic(Paths.image('weeb/weebSky','week6'));
-          bgSky.scrollFactor.set(0.1, 0.1);
-          add(bgSky);
-
-          var repositionShit = -200;
-
-          var bgSchool:FlxSprite = new FlxSprite(repositionShit, 0).loadGraphic(Paths.image('weeb/weebSchool','week6'));
-          bgSchool.scrollFactor.set(0.6, 0.90);
-          add(bgSchool);
-
-          var bgStreet:FlxSprite = new FlxSprite(repositionShit).loadGraphic(Paths.image('weeb/weebStreet','week6'));
-          bgStreet.scrollFactor.set(0.95, 0.95);
-          add(bgStreet);
-
-          var fgTrees:FlxSprite = new FlxSprite(repositionShit + 170, 130).loadGraphic(Paths.image('weeb/weebTreesBack','week6'));
-          fgTrees.scrollFactor.set(0.9, 0.9);
-          add(fgTrees);
-
-          var bgTrees:FlxSprite = new FlxSprite(repositionShit - 380, -800);
-          var treetex = Paths.getPackerAtlas('weeb/weebTrees','week6');
-          bgTrees.frames = treetex;
-          bgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
-          bgTrees.animation.play('treeLoop');
-          bgTrees.scrollFactor.set(0.85, 0.85);
-          add(bgTrees);
-
-          var treeLeaves:FlxSprite = new FlxSprite(repositionShit, -40);
-          treeLeaves.frames = Paths.getSparrowAtlas('weeb/petals','week6');
-          treeLeaves.animation.addByPrefix('leaves', 'PETALS ALL', 24, true);
-          treeLeaves.animation.play('leaves');
-          treeLeaves.scrollFactor.set(0.85, 0.85);
-          add(treeLeaves);
-
-          var widShit = Std.int(bgSky.width * 6);
-
-          bgSky.setGraphicSize(widShit);
-          bgSchool.setGraphicSize(widShit);
-          bgStreet.setGraphicSize(widShit);
-          bgTrees.setGraphicSize(Std.int(widShit * 1.4));
-          fgTrees.setGraphicSize(Std.int(widShit * 0.8));
-          treeLeaves.setGraphicSize(widShit);
-
-          fgTrees.updateHitbox();
-          bgSky.updateHitbox();
-          bgSchool.updateHitbox();
-          bgStreet.updateHitbox();
-          bgTrees.updateHitbox();
-          treeLeaves.updateHitbox();
-
-          centerX = bgSchool.getMidpoint().x;
-          centerY = bgSchool.getMidpoint().y;
-
-          //centerX = 580;
-          //centerY = 380;
-
-          var bgGirls = new BackgroundGirls(-100, 190);
-          bgGirls.scrollFactor.set(0.9, 0.9);
-
-          if(PlayState.SONG.song.toLowerCase() == 'roses'){
-            bgGirls.getScared();
-          }
-
-          bgGirls.setGraphicSize(Std.int(bgGirls.width * PlayState.daPixelZoom));
-          bgGirls.updateHitbox();
-          add(bgGirls);
-          dancers.push(bgGirls);
-      case 'schoolEvil':
-        gfVersion = 'gf-pixel';
-        camOffset.x = 200;
-        camOffset.y = 200;
-
-        bfPosition.x += 200;
-        bfPosition.y += 220;
-        gfPosition.x += 180;
-        gfPosition.y += 300;
-
-        var posX = 400;
-        var posY = 200;
-
-        var bg:FlxSprite = new FlxSprite(posX, posY);
-        bg.frames = Paths.getSparrowAtlas('weeb/animatedEvilSchool','week6');
-        bg.animation.addByPrefix('idle', 'background 2', 24);
-        bg.animation.play('idle');
-        bg.scrollFactor.set(0.8, 0.9);
-        bg.scale.set(6, 6);
-        add(bg);
-
-        centerX = bg.getMidpoint().x;
-        centerY = bg.getMidpoint().y;
-      case 'mall':
-        gfVersion = 'gf-christmas';
-        camOffset.x = 200;
-        defaultCamZoom = 0.80;
-        bfPosition.x += 200;
-
-        var bg:FlxSprite = new FlxSprite(-1000, -500).loadGraphic(Paths.image('christmas/bgWalls','week5'));
+      case 'macrocity':
+        defaultCamZoom = .9;
+        curStage = 'macrocity';
+        var bg:FlxSprite = new FlxSprite(-300, -50).loadGraphic(Paths.image('macrocity/MC2',"crow"));
         bg.antialiasing = true;
-        bg.scrollFactor.set(0.2, 0.2);
+        bg.scrollFactor.set(0.3, 0.3);
         bg.active = false;
-        bg.setGraphicSize(Std.int(bg.width * 0.8));
+        bg.setGraphicSize(Std.int(bg.width * 0.75));
         bg.updateHitbox();
         add(bg);
 
-        var upperBoppers = new FlxSprite(-240, -90);
-        upperBoppers.frames = Paths.getSparrowAtlas('christmas/upperBop','week5');
-        upperBoppers.animation.addByPrefix('bop', "Upper Crowd Bob", 24, false);
-        upperBoppers.antialiasing = true;
-        upperBoppers.scrollFactor.set(0.33, 0.33);
-        upperBoppers.setGraphicSize(Std.int(upperBoppers.width * 0.85));
-        upperBoppers.updateHitbox();
-        add(upperBoppers);
-        boppers.push([upperBoppers,"bop",1]);
+        var MC1:FlxSprite = new FlxSprite(-600, -300).loadGraphic(Paths.image('macrocity/MC1',"crow"));
+        MC1.active = false;
+        MC1.antialiasing = true;
+        add(MC1);
 
-        var bgEscalator:FlxSprite = new FlxSprite(-1100, -600).loadGraphic(Paths.image('christmas/bgEscalator','week5'));
-        bgEscalator.antialiasing = true;
-        bgEscalator.scrollFactor.set(0.3, 0.3);
-        bgEscalator.active = false;
-        bgEscalator.setGraphicSize(Std.int(bgEscalator.width * 0.9));
-        bgEscalator.updateHitbox();
-        add(bgEscalator);
+        var carBlue:FlxSprite = new FlxSprite(1000, 400);
+        carBlue.frames = Paths.getSparrowAtlas('macrocity/CarBlue',"crow");
+        carBlue.animation.addByPrefix('durdurdur',"CarBlue", 24);
+        carBlue.animation.play('durdurdur');
+        add(carBlue);
 
-        var tree:FlxSprite = new FlxSprite(370, -250).loadGraphic(Paths.image('christmas/christmasTree','week5'));
-        tree.antialiasing = true;
-        tree.scrollFactor.set(0.40, 0.40);
-        add(tree);
+        var TAXI:FlxSprite = new FlxSprite(-100, 400);
+        TAXI.frames = Paths.getSparrowAtlas('macrocity/TAXI','crow');
+        TAXI.animation.addByPrefix('assassass', "TAXI", 24);
+        TAXI.animation.play('assassass');
+        add(TAXI);
 
-        var bottomBoppers = new FlxSprite(-300, 140);
-        bottomBoppers.frames = Paths.getSparrowAtlas('christmas/bottomBop','week5');
-        bottomBoppers.animation.addByPrefix('bop', 'Bottom Level Boppers', 24, false);
-        bottomBoppers.antialiasing = true;
-        bottomBoppers.scrollFactor.set(0.9, 0.9);
-        bottomBoppers.setGraphicSize(Std.int(bottomBoppers.width * 1));
-        bottomBoppers.updateHitbox();
-        add(bottomBoppers);
-        boppers.push([bottomBoppers,"bop",1]);
+        fuckyoustupidbot =new FlxSprite(-1000, 75);
+        fuckyoustupidbot.frames = Paths.getSparrowAtlas('macrocity/PoliceRobot',"crow");
+        fuckyoustupidbot.animation.addByPrefix('fuck', "PoliceRobot", 24);
+        fuckyoustupidbot.animation.play('fuck');
+        add(fuckyoustupidbot);
 
-        var fgSnow:FlxSprite = new FlxSprite(-600, 700).loadGraphic(Paths.image('christmas/fgSnow','week5'));
-        fgSnow.active = false;
-        fgSnow.antialiasing = true;
-        add(fgSnow);
+        centerX = 400;
+        centerY = 130;
+      case 'deathpod':
+        defaultCamZoom = .6;
+        bfPosition.x = 2075;
+        bfPosition.y = 700;
 
-        var santa = new FlxSprite(-840, 150);
-        santa.frames = Paths.getSparrowAtlas('christmas/santa','week5');
-        santa.animation.addByPrefix('idle', 'santa idle in fear', 24, false);
-        santa.antialiasing = true;
-        add(santa);
-        boppers.push([santa,"idle",1]);
+        gfPosition.x = 900;
+        gfPosition.y = 35;
 
-        centerX = bg.getMidpoint().x;
-        centerY = bg.getMidpoint().y;
-      case 'mallEvil':
-        gfVersion = 'gf-christmas';
+        dadPosition.x = 350;
+        dadPosition.y = 35;
 
-        bfPosition.x += 320;
-        dadPosition.y -= 80;
-        var bg:FlxSprite = new FlxSprite(-400, -500).loadGraphic(Paths.image('christmas/evilBG','week5'));
+        var baseX:Float = 75;
+        var baseY:Float = 0;
+
+        var bg:FlxSprite = new FlxSprite(-1000, -1000).loadGraphic(Paths.image('deathpod/BGSky',"crow"));
         bg.antialiasing = true;
-        bg.scrollFactor.set(0.2, 0.2);
-        bg.active = false;
-        bg.setGraphicSize(Std.int(bg.width * 0.8));
+        bg.scrollFactor.set(0.05, 0.05);
+        bg.velocity.x = 5;
+        bg.setGraphicSize(Std.int(bg.width*1.75));
         bg.updateHitbox();
         add(bg);
 
-        var evilTree:FlxSprite = new FlxSprite(300, -300).loadGraphic(Paths.image('christmas/evilTree','week5'));
-        evilTree.antialiasing = true;
-        evilTree.scrollFactor.set(0.2, 0.2);
-        add(evilTree);
+        clouds1 = new FlxSprite(-600, -200).loadGraphic(Paths.image('deathpod/BGClouds',"crow"));
+        clouds1.antialiasing = true;
+        clouds1.velocity.x = 5000;
+        clouds1.scrollFactor.set(0.9, 0.9);
+        clouds1.updateHitbox();
+        clouds1.scale.set(1.2,1.2);
+        clouds1.updateHitbox();
+        foreground.add(clouds1);
 
-        var evilSnow:FlxSprite = new FlxSprite(-200, 700).loadGraphic(Paths.image("christmas/evilSnow",'week5'));
-        evilSnow.antialiasing = true;
-        add(evilSnow);
+        clouds2 = new FlxSprite(1900, -300).loadGraphic(Paths.image('deathpod/BGClouds',"crow"));
+        clouds2.antialiasing = true;
+        clouds2.velocity.x = 4000;
+        clouds2.scrollFactor.set(0.25, 0.25);
+        clouds2.scale.set(.9,.9);
+        clouds2.updateHitbox();
+        add(clouds2);
 
-        centerX = bg.getMidpoint().x;
-        centerY = bg.getMidpoint().y+200;
-      case 'limo':
-        gfVersion = 'gf-car';
-        camOffset.x = 300;
+        clouds3 = new FlxSprite(400, -300).loadGraphic(Paths.image('deathpod/BGClouds',"crow"));
+        clouds3.antialiasing = true;
+        clouds3.velocity.x = 3250;
+        clouds3.scrollFactor.set(0.3, 0.3);
+        clouds3.updateHitbox();
+        add(clouds3);
 
-        bfPosition.y -= 220;
-        bfPosition.x += 260;
 
-        defaultCamZoom = 0.90;
+        var chain:FlxSprite = new FlxSprite(1000,800).loadGraphic(Paths.image("deathpod/Chain","crow"));
+        chain.scale.set(-1,1);
+        chain.scrollFactor.set(1,1);
+        chain.antialiasing = true;
+        chain.updateHitbox();
+        add(chain);
 
-        var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic(Paths.image('limo/limoSunset','week4'));
-        skyBG.scrollFactor.set(0.1, 0.1);
-        add(skyBG);
+        var ball:FlxSprite = new FlxSprite(1800,1030).loadGraphic(Paths.image("deathpod/WreckingBall","crow"));
+        ball.scale.set(-1,1);
+        ball.scrollFactor.set(1,1);
+        ball.antialiasing = true;
+        ball.updateHitbox();
+        add(ball);
 
-        var bgLimo:FlxSprite = new FlxSprite(-200, 480);
-        bgLimo.frames = Paths.getSparrowAtlas('limo/bgLimo','week4');
-        bgLimo.animation.addByPrefix('drive', "background limo pink", 24);
-        bgLimo.animation.play('drive');
-        bgLimo.scrollFactor.set(0.4, 0.4);
-        add(bgLimo);
-        for (i in 0...5)
-        {
-                var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
-                dancer.scrollFactor.set(0.4, 0.4);
-                dancers.push(dancer);
-                add(dancer);
-        }
+        var pod:FlxSprite = new FlxSprite(0,0);
+        pod.antialiasing=true;
+        pod.frames = Paths.getSparrowAtlas('deathpod/Pod','crow');
+        pod.animation.addByPrefix("idle","DeathPod Open",30,true);
+        pod.animation.play("idle",true);
+        pod.scrollFactor.set(1,1);
+        pod.scale.set(-1.3,1.3);
+        add(pod);
 
-        var overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic(Paths.image('limo/limoOverlay','week4'));
-        overlayShit.alpha = 0.5;
-        // add(overlayShit);
+        var fire:FlxSprite = new FlxSprite(800,700);
+        fire.antialiasing=true;
+        fire.frames = Paths.getSparrowAtlas('deathpod/FireTHing','crow');
+        fire.animation.addByIndices("idle","FireThing", [7,8,9,10,11,12,13], "", 24, true);
+        fire.animation.play("idle",true);
+        fire.angle=-45;
+        fire.scale.set(-1.3,1.3);
+        add(fire);
 
-        // var shaderBullshit = new BlendModeEffect(new OverlayShader(), FlxColor.RED);
+        fire.x += baseX;
+        fire.y += baseY;
 
-        // FlxG.camera.setFilters([new ShaderFilter(cast shaderBullshit.shader)]);
+        pod.x += baseX;
+        pod.y += baseY;
 
-        // overlayShit.shader = shaderBullshit;
+        ball.x += baseX;
+        ball.y += baseY;
 
-        var limoTex = Paths.getSparrowAtlas('limo/limoDrive','week4');
+        chain.x += baseX;
+        chain.y += baseY;
 
-        limo = new FlxSprite(-120, 550);
-        limo.frames = limoTex;
-        limo.animation.addByPrefix('drive', "Limo stage", 24);
-        limo.animation.play('drive');
-        limo.antialiasing = true;
-        layers.get("gf").add(limo);
+        bg.x += baseX;
+        bg.y += baseY;
 
-        fastCar = new FlxSprite(-300, 160).loadGraphic(Paths.image('limo/fastCarLol','week4'));
-        add(fastCar);
-        resetFastCar();
-
-        centerX = skyBG.getMidpoint().x+100;
-        centerY = skyBG.getMidpoint().y-100;
+        clouds1.x += baseX;
+        clouds1.y += baseY;
       case 'blank':
         centerX = 400;
         centerY = 130;
@@ -554,109 +345,33 @@ class Stage extends FlxTypedGroup<FlxBasic> {
     if(doDistractions){
 
       switch(curStage){
-        case 'limo':
-          if (FlxG.random.bool(10) && fastCarCanDrive)
-            fastCarDrive();
-        case 'spooky':
-          if (FlxG.random.bool(10) && beat > lightningStrikeBeat + lightningOffset)
-          {
-            lightningStrikeBeat = beat;
-            lightningStrikeShit();
-          }
-        case 'philly':
-          if (!trainMoving)
-            trainCooldown += 1;
-
-          if (beat%4== 0)
-          {
-            phillyCityLights.forEach(function(light:FlxSprite)
-            {
-              light.visible = false;
-            });
-
-            curLight = FlxG.random.int(0, phillyCityLights.length - 1);
-
-            phillyCityLights.members[curLight].visible = true;
-            phillyCityLights.members[curLight].alpha = 1;
-            lightFadeShader.setAlpha(0);
-          }
-
-          if (beat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
-          {
-            trainCooldown = FlxG.random.int(-4, 0);
-            trainStart();
-          }
+        case 'macrocity':
+          if (FlxG.random.bool(10) && !robotGoin)
+            robotMove();
       }
     }
   }
 
   override function update(elapsed:Float){
-    switch(curStage){
-      case 'philly':
-        if (trainMoving)
-        {
-          trainFrameTiming += elapsed;
-
-          if (trainFrameTiming >= 1 / 24)
-          {
-            updateTrainPos();
-            trainFrameTiming = 0;
-          }
-        }
-        lightFadeShader.addAlpha((Conductor.crochet / 1000) * FlxG.elapsed * 1.5);
-    }
-
-
     super.update(elapsed);
-  }
+    switch(curStage){
+      case 'deathpod':
+        if(clouds1.x > 10000){
+          clouds1.y = FlxG.random.int(-200,-400);
+          clouds1.x = -10000;
+        }
 
-  function trainStart():Void
-  {
-    trainMoving = true;
-    trainSound.play(true,0);
-  }
+        if(clouds2.x > 2000){
+          clouds2.y = FlxG.random.int(-200,-400);
+          clouds2.x = -2600 + FlxG.random.int(-100,100);
+        }
 
-  var startedMoving:Bool = false;
-
-  function updateTrainPos():Void
-  {
-    if (trainSound.time >= 4700)
-    {
-      startedMoving = true;
-      gf.playAnim('hairBlow');
+        if(clouds3.x > 2400){
+          clouds3.y = FlxG.random.int(-200,-400);
+          clouds3.x = -2600 + FlxG.random.int(-100,100);
+        }
     }
 
-    if (startedMoving)
-    {
-      if(currentOptions.picoCamshake)
-        PlayState.currentPState.camGame.shake(.0025,.1,null,true,X);
-
-      phillyTrain.x -= 400;
-
-      if (phillyTrain.x < -2000 && !trainFinishing)
-      {
-        phillyTrain.x = -1150;
-        trainCars -= 1;
-
-        if (trainCars <= 0)
-          trainFinishing = true;
-      }
-
-      if (phillyTrain.x < -4000 && trainFinishing)
-        trainReset();
-    }
-  }
-
-  function trainReset():Void
-  {
-    gf.playAnim('hairFall');
-    phillyTrain.x = FlxG.width + 200;
-    trainMoving = false;
-    // trainSound.stop();
-    // trainSound.time = 0;
-    trainCars = 8;
-    trainFinishing = false;
-    startedMoving = false;
   }
 
 }

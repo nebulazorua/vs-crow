@@ -1,0 +1,136 @@
+{
+	"charOffset": [
+		0,
+		50
+	],
+	"singDur": 4,
+	"spritesheet": "Crow_Assets_GF",
+	"anims": [
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"prefix": "Crow Idle",
+			"name": "idle",
+			"looped": false
+		},
+		{
+			"offsets": [
+				29,
+				39
+			],
+			"fps": 24,
+			"prefix": "Crow Up0",
+			"looped": false,
+			"name": "singUP"
+		},
+		{
+			"offsets": [
+				76,
+				-73
+			],
+			"fps": 24,
+			"prefix": "Crow Left0",
+			"looped": false,
+			"name": "singLEFT"
+		},
+		{
+			"offsets": [
+				-5,
+				-69
+			],
+			"fps": 24,
+			"prefix": "Crow Right0",
+			"looped": false,
+			"name": "singRIGHT"
+		},
+		{
+			"offsets": [
+				0,
+				-71
+			],
+			"fps": 24,
+			"prefix": "Crow Down0",
+			"looped": false,
+			"name": "singDOWN"
+		},
+		{
+			"offsets": [
+				29,
+				41
+			],
+			"fps": 24,
+			"prefix": "Crow Up Miss0",
+			"looped": false,
+			"name": "singUPmiss"
+		},
+		{
+			"offsets": [
+				72,
+				-76
+			],
+			"fps": 24,
+			"prefix": "Crow Left Miss0",
+			"name": "singLEFTmiss",
+			"looped": false
+		},
+		{
+			"offsets": [
+				-2,
+				-5
+			],
+			"fps": 24,
+			"prefix": "Crow Right Miss0",
+			"name": "singRIGHTmiss",
+			"looped": false
+		},
+		{
+			"offsets": [
+				8,
+				-34
+			],
+			"fps": 24,
+			"prefix": "Crow Down Miss0",
+			"name": "singDOWNmiss",
+			"looped": false
+		},
+		{
+			"offsets": [
+				185,
+				51
+			],
+			"fps": 24,
+			"prefix": "Death Animation0",
+			"name": "firstDeath",
+			"looped": false
+		},
+		{
+			"offsets": [
+				74,
+				-307
+			],
+			"fps": 24,
+			"prefix": "Death Confirm0",
+			"looped": false,
+			"name": "deathConfirm"
+		},
+		{
+			"offsets": [
+				74,
+				-307
+			],
+			"fps": 24,
+			"prefix": "Death Loop0",
+			"looped": false,
+			"name": "deathLoop"
+		}
+	],
+	"flipX": false,
+	"antialiasing": true,
+	"iconName": "crow",
+	"beatDancer": false,
+	"format": "andromeda",
+	"healthColor": "0xFF640C69"
+}

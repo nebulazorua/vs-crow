@@ -1,0 +1,66 @@
+{
+	"charOffset": [
+		0,
+		125
+	],
+	"singDur": 4,
+	"spritesheet": "CrowCute",
+	"anims": [
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"prefix": "Crow Idle",
+			"looped": false,
+			"name": "idle"
+		},
+		{
+			"offsets": [
+				-15,
+				80
+			],
+			"fps": 24,
+			"prefix": "Crow Up0",
+			"looped": false,
+			"name": "singUP"
+		},
+		{
+			"offsets": [
+				71,
+				-31
+			],
+			"fps": 24,
+			"prefix": "Crow Left0",
+			"looped": false,
+			"name": "singLEFT"
+		},
+		{
+			"offsets": [
+				-27,
+				-18
+			],
+			"fps": 24,
+			"prefix": "Crow Right0",
+			"looped": false,
+			"name": "singRIGHT"
+		},
+		{
+			"offsets": [
+				8,
+				-44
+			],
+			"fps": 24,
+			"prefix": "Crow Down0",
+			"looped": false,
+			"name": "singDOWN"
+		}
+	],
+	"flipX": false,
+	"antialiasing": true,
+	"iconName": "crowhelmetless",
+	"beatDancer": false,
+	"healthColor": "0xFF640C69",
+	"format": "andromeda"
+}

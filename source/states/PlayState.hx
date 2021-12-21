@@ -669,8 +669,11 @@ class PlayState extends MusicBeatState
 		if(!currentOptions.allowNoteModifiers){
 			noteModifier='base';
 		}
-		if(SONG.player1=='bf-neb')
-			gfVersion = 'lizzy';
+
+		switch(stage.curStage){
+			case 'deathpod':
+				gfVersion = 'gfDp';
+		}
 
 
 		gf = new Character(400, 130, gfVersion, false, !currentOptions.noChars);
@@ -682,8 +685,6 @@ class PlayState extends MusicBeatState
 		boyfriend = new Boyfriend(770, 450, SONG.player1, !currentOptions.noChars);
 		stage.boyfriend=boyfriend;
 
-		stage.setPlayerPositions(boyfriend,dad,gf);
-
 		defaultCamZoom=stage.defaultCamZoom;
 		if(boyfriend.curCharacter=='spirit' && !currentOptions.noChars){
 			var evilTrail = new FlxTrail(boyfriend, null, 4, 24, 0.3, 0.069);
@@ -693,8 +694,8 @@ class PlayState extends MusicBeatState
 			var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069);
 			add(evilTrail);
 		}
-		if(SONG.player1=='bf-neb')
-			boyfriend.y -= 75;
+
+		stage.setPlayerPositions(boyfriend,dad,gf);
 
 		add(gf);
 		add(stage.layers.get("gf"));
@@ -703,6 +704,8 @@ class PlayState extends MusicBeatState
 		add(boyfriend);
 		add(stage.layers.get("boyfriend"));
 		add(stage.foreground);
+
+
 
 		add(stage.overlay);
 		stage.overlay.cameras = [camHUD];
@@ -1275,7 +1278,7 @@ class PlayState extends MusicBeatState
 		// DUMB FUCKING AMERICANS CANT JUST ADD A 'U' >:(
 
 		Note.noteBehaviour = Json.parse(Paths.noteSkinText("behaviorData.json",'skins',currentOptions.noteSkin,noteModifier));
-
+		Note.defaultModifier = noteModifier;
 		var dynamicColouring:Null<Bool> = Note.noteBehaviour.receptorAutoColor;
 		if(dynamicColouring==null)dynamicColouring=false;
 		Receptor.dynamicColouring=dynamicColouring;
@@ -1349,10 +1352,15 @@ class PlayState extends MusicBeatState
 				var daStrumTime:Float = songNotes[0];
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 				var gottaHitNote:Bool = section.mustHitSection;
+
 				if (songNotes[1] > 3)
 				{
 					gottaHitNote = !section.mustHitSection;
 				}
+				var useCrowMod = gottaHitNote?false:true;
+
+				if(storyDifficulty==2)
+					useCrowMod=!useCrowMod;
 
 
 				var oldNote:Note;
@@ -1361,7 +1369,17 @@ class PlayState extends MusicBeatState
 				else
 					oldNote = null;
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, currentOptions.noteSkin, noteModifier, EngineData.noteTypes[songNotes[3]], oldNote, false, getPosFromTime(daStrumTime));
+				var psychBS:String = songNotes[3];
+
+				if(psychBS=="Alt Note")
+					songNotes[3] = 1; // alt
+
+
+				if(psychBS=="Hurt Note")
+					songNotes[3] = 2; // mines
+
+
+				var swagNote:Note = new Note(daStrumTime, daNoteData, currentOptions.noteSkin, useCrowMod?"crow":noteModifier, EngineData.noteTypes[songNotes[3]], oldNote, false, getPosFromTime(daStrumTime));
 				swagNote.sustainLength = songNotes[2];
 				swagNote.scrollFactor.set(0, 0);
 				swagNote.cameras = [camNotes];
@@ -1402,7 +1420,7 @@ class PlayState extends MusicBeatState
 					{
 						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 						var sussy = daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet;
-						var sustainNote:Note = new Note(sussy, daNoteData, currentOptions.noteSkin, noteModifier, EngineData.noteTypes[songNotes[3]], oldNote, true, getPosFromTime(sussy));
+						var sustainNote:Note = new Note(sussy, daNoteData, currentOptions.noteSkin, useCrowMod?"crow":noteModifier, EngineData.noteTypes[songNotes[3]], oldNote, true, getPosFromTime(sussy));
 						sustainNote.cameras = [camSus];
 						sustainNote.scrollFactor.set();
 						unspawnNotes.push(sustainNote);
@@ -1506,7 +1524,7 @@ class PlayState extends MusicBeatState
 			var dirs = ["left","down","up","right"];
 			var clrs = ["purple","blue","green","red"];
 
-			var babyArrow:Receptor = new Receptor(0, center.y, i, currentOptions.noteSkin, noteModifier, Note.noteBehaviour);
+			var babyArrow:Receptor = new Receptor(0, center.y, i, currentOptions.noteSkin, player==0?"crow":noteModifier, Note.noteBehaviour);
 			if(player==1)
 				noteSplashes.add(babyArrow.noteSplash);
 

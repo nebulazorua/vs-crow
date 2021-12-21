@@ -182,7 +182,7 @@ class ChartingState extends MusicBeatState
 
 		dummyArrowLayer = new FlxTypedGroup<NoteGraphic>();
 		add(dummyArrowLayer);
-		dummyArrow = new NoteGraphic(0,PlayState.noteModifier,EngineData.options.noteSkin,Note.noteBehaviour);
+		dummyArrow = new NoteGraphic(0,Note.defaultModifier,EngineData.options.noteSkin,Note.noteBehaviour);
 		dummyArrow.setDir(0,false,false);
 		dummyArrow.setGraphicSize(GRID_SIZE,GRID_SIZE);
 		dummyArrow.updateHitbox();
@@ -483,12 +483,22 @@ class ChartingState extends MusicBeatState
 		placingType = new FlxUIDropDownMenu(150, 125, FlxUIDropDownMenu.makeStrIdLabelArray(EngineData.noteTypes, true), function(type:String){
 			dummyArrowLayer.remove(dummyArrow);
 			var type = EngineData.noteTypes[Std.parseInt(type)];
-			var behaviour = type=='default'?Note.noteBehaviour:Note.behaviours.get(type);
+			/*var behaviour = type=='default'?Note.noteBehaviour:Note.behaviours.get(type);
 			if(behaviour==null){
-				behaviour = Json.parse(Paths.noteSkinText("behaviorData.json",'skins',EngineData.options.noteSkin,PlayState.noteModifier,type));
+				behaviour = Json.parse(Paths.noteSkinText("behaviorData.json",'skins',EngineData.options.noteSkin,Note.defaultModifier,type));
 				Note.behaviours.set(type,behaviour);
+			}*/
+			var modBehaviours = Note.behaviours.get(Note.defaultModifier);
+			if(modBehaviours==null)modBehaviours = new Map<String,Note.NoteBehaviour>();
+
+			var behaviour = type=='default'?Note.noteBehaviour:modBehaviours.get(type);
+			if(behaviour==null){
+				behaviour = Json.parse(Paths.noteSkinText("behaviorData.json",'skins',EngineData.options.noteSkin,Note.defaultModifier,type));
+				modBehaviours.set(type,behaviour);
+				Note.behaviours.set(Note.defaultModifier,modBehaviours);
 			}
-			dummyArrow = new NoteGraphic(0,PlayState.noteModifier,EngineData.options.noteSkin,type,behaviour);
+
+			dummyArrow = new NoteGraphic(0,Note.defaultModifier,EngineData.options.noteSkin,type,behaviour);
 			dummyArrow.setDir(0,false,false);
 			dummyArrow.setGraphicSize(GRID_SIZE,GRID_SIZE);
 			dummyArrow.updateHitbox();
@@ -936,17 +946,18 @@ class ChartingState extends MusicBeatState
 		var shiftThing:Int = 1;
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing = 4;
-		if (FlxG.keys.justPressed.D)
-		for(i in 0...shiftThing){
-			if (_song.notes[curSection + i] == null)
-			{
-				addSection();
+		if (FlxG.keys.justPressed.D){
+			for(i in 0...shiftThing){
+				if (_song.notes[curSection + i] == null)
+				{
+					addSection();
+				}
 			}
-		}
 			changeSection(curSection + shiftThing);
-		if (FlxG.keys.justPressed.A){
-			changeSection(curSection - shiftThing);
 		}
+		if (FlxG.keys.justPressed.A)
+			changeSection(curSection - shiftThing);
+
 
 		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
 			+ " / "
@@ -1173,7 +1184,7 @@ class ChartingState extends MusicBeatState
  			var daStrumTime = i[0];
  			var daSus = i[2];
 
- 			var note:Note = new Note(daStrumTime, daNoteInfo%4, EngineData.options.noteSkin, PlayState.noteModifier, EngineData.noteTypes[i[3]], null, false, 0, true);
+ 			var note:Note = new Note(daStrumTime, daNoteInfo%4, EngineData.options.noteSkin, Note.defaultModifier, EngineData.noteTypes[i[3]], null, false, 0, true);
 			note.wasGoodHit = daStrumTime<Conductor.songPosition;
  			note.rawNoteData = daNoteInfo;
  			note.sustainLength = daSus;
@@ -1195,7 +1206,7 @@ class ChartingState extends MusicBeatState
  				var sus = [];
  				for (susNote in 0...Math.floor(daSus))
  				{
- 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteInfo % 4, EngineData.options.noteSkin, PlayState.noteModifier, EngineData.noteTypes[i[3]], oldNote, true,0,true);
+ 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteInfo % 4, EngineData.options.noteSkin, Note.defaultModifier, EngineData.noteTypes[i[3]], oldNote, true,0,true);
  					sustainNote.rawNoteData = daNoteInfo;
  					sustainNote.setGraphicSize(GRID_SIZE, GRID_SIZE);
  					sustainNote.updateHitbox();

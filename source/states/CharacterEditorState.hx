@@ -258,7 +258,7 @@ class CharacterEditorState extends MusicBeatState {
     FlxCamera.defaultCameras = [camGame];
     Conductor.changeBPM(160);
     FlxG.sound.playMusic(Paths.music('breakfast','shared'));
-    stage = new Stage('stage',EngineData.options);
+    stage = new Stage('deathpod',EngineData.options);
     add(stage);
     stage.doDistractions=false;
 
@@ -303,6 +303,9 @@ class CharacterEditorState extends MusicBeatState {
     layering.add(charUI);
     layering.add(animUI);
 
+    animUI.cameras = [camHUD];
+    healthUI.cameras = [camHUD];
+    charUI.cameras = [camHUD];
   }
 
   var pressedOffsetShit:Array<Float>=[0,0,0,0];
