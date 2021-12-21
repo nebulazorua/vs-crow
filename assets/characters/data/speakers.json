@@ -1,10 +1,10 @@
 {
-	"iconName": "gf",
-	"beatDancer": true,
 	"charOffset": [
 		0,
-		0
+		275
 	],
+	"singDur": 4,
+	"spritesheet": "speakers",
 	"anims": [
 		{
 			"offsets": [
@@ -62,8 +62,10 @@
 			"looped": false
 		}
 	],
-	"spritesheet": "speakers",
-	"singDur": 4,
 	"flipX": false,
-	"healthColor": "0xFFA5004D"
+	"antialiasing": true,
+	"iconName": "gf",
+	"beatDancer": true,
+	"healthColor": "0xFFA5004D",
+	"format": "andromeda"
 }

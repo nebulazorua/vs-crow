@@ -14,8 +14,11 @@ class Healthbar extends FlxSpriteGroup {
   public var iconP2:HealthIcon;
   public var smooth:Bool = false;
 
-  public var value:Float = 1;
+  public var color1:FlxColor;
+  public var color2:FlxColor;
 
+  public var value:Float = 1;
+  public var reverse:Bool = false;
   var display:Float = 1;
   var instance:FlxBasic;
   var property:String;
@@ -31,6 +34,9 @@ class Healthbar extends FlxSpriteGroup {
     this.property=property;
     display = Reflect.getProperty(instance,property);
     bg = new FlxSprite(0, 0).loadGraphic(Paths.image('healthBar','shared'));
+
+    color1 = baseColor;
+    color2 = secondaryColor;
 
     bar = new FlxBar(bg.x + 4, bg.y + 4, RIGHT_TO_LEFT, Std.int(bg.width - 8), Std.int(bg.height - 8), this, 'display', min, max);
     bar.createFilledBar(baseColor,secondaryColor);
@@ -56,6 +62,8 @@ class Healthbar extends FlxSpriteGroup {
   }
 
   public function setColors(baseColor:FlxColor,secondaryColor:FlxColor){
+    color1 = baseColor;
+    color2 = secondaryColor;
     bar.createFilledBar(baseColor,secondaryColor);
   }
   public function setIconSize(iconP1Size:Int,iconP2Size:Int){
@@ -82,6 +90,20 @@ class Healthbar extends FlxSpriteGroup {
 
     var percent = bar.percent;
     var opponentPercent = 100-bar.percent;
+    if(reverse){
+      percent = 100-bar.percent;
+      opponentPercent = bar.percent;
+      if(bar.fillDirection==RIGHT_TO_LEFT){
+        bar.fillDirection = LEFT_TO_RIGHT;
+        setColors(color2,color1);
+    }
+
+    }else{
+      if(bar.fillDirection==LEFT_TO_RIGHT){
+        bar.fillDirection = RIGHT_TO_LEFT;
+        setColors(color2,color1);
+      }
+    }
     setIconSize(Std.int(FlxMath.lerp(iconP1.width, 150, Main.adjustFPS(0.1))),Std.int(FlxMath.lerp(iconP2.width, 150, Main.adjustFPS(0.1))));
     var iconOffset:Int = 26;
     iconP1.x = bar.x + (bar.width * (FlxMath.remapToRange(percent, 0, 100, 100, 0) * 0.01) - iconOffset);

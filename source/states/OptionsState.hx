@@ -89,6 +89,7 @@ class OptionsState extends MusicBeatState
 				]),
 			]),
 			new OptionCategory("Preferences",[
+				new ToggleOption("bfStylin","Villain Mode BF Judges","Whether BF's judgements are shown during Villain mode"),
 				new ToggleOption("useNotesplashes","Show NoteSplashes","Notesplashes showing up on sicks and above."),
 				new ToggleOption("camFollowsAnims","Directional Camera","Camera moving depending on a character's animations"),
 				new ToggleOption("ratingInHUD","Fixed Judgements","Fixes judgements, milliseconds and combo to the screen"),

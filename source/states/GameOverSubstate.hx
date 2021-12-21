@@ -6,15 +6,25 @@ import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import flixel.math.FlxMath;
+
 import ui.*;
+using StringTools;
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bf:Boyfriend;
+	var lines:Array<String> = [
+		"gitgud",
+		"heroesalwayslose",
+		"laugh1",
+		"laugh2",
+		"waitiwon"
+	];
+	var bf:Character;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
 
-	public function new(x:Float, y:Float)
+	public function new(who:String,x:Float, y:Float)
 	{
 		var daStage = PlayState.curStage;
 		var daBf:String = '';
@@ -29,12 +39,22 @@ class GameOverSubstate extends MusicBeatSubstate
 			default:
 				daBf = 'bf';
 		}
+		switch(who){
+			case 'crow' | 'crowDeathpod' | 'crowhelmetless':
+				stageSuffix = '-nef';
+				daBf = who;
+		}
 
 		super();
 
 		Conductor.songPosition = 0;
 
-		bf = new Boyfriend(x, y, daBf);
+		bf = new Character(x, y, daBf, true);
+		if(!daBf.startsWith("bf")){
+			bf.flipX = !bf.flipX;
+			bf.flip();
+		}
+
 		add(bf);
 
 		camFollow = new FlxObject(bf.getGraphicMidpoint().x, bf.getGraphicMidpoint().y, 1, 1);
@@ -47,6 +67,13 @@ class GameOverSubstate extends MusicBeatSubstate
 		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
 		FlxG.camera.scroll.set();
 		FlxG.camera.target = null;
+
+		if(daBf.startsWith("bf")){
+			FlxG.camera.shake(0.01,0.2);
+			FlxG.camera.zoom = 2.6;
+			FlxG.camera.follow(camFollow, LOCKON, 1);
+			FlxG.camera.snapToTarget();
+		}
 
 		bf.playAnim('firstDeath');
 	}
@@ -74,9 +101,17 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			FlxG.camera.follow(camFollow, LOCKON, Main.adjustFPS(0.01));
 		}
+		if(bf.animation.curAnim.name!='firstDeath' || bf.animation.curAnim.curFrame >= 8 ){
+			if(bf.curCharacter.startsWith("bf"))
+				FlxG.camera.zoom = FlxMath.lerp(FlxG.camera.zoom,1, Main.adjustFPS(0.05));
+		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
 		{
+			if(bf.curCharacter.startsWith("bf")){
+				var voiceLine = lines[FlxG.random.int(0,lines.length-1)];
+				FlxG.sound.play(Paths.sound('voices/${voiceLine}'));
+			}
 			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
 		}
 
@@ -89,7 +124,10 @@ class GameOverSubstate extends MusicBeatSubstate
 	override function beatHit()
 	{
 		super.beatHit();
-
+		if (bf.animation.curAnim.name == 'deathLoop' && bf.animation.curAnim.finished)
+		{
+			bf.playAnim('deathLoop');
+		}
 		FlxG.log.add('beat');
 	}
 

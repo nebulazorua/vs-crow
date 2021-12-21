@@ -136,8 +136,9 @@ class Options
 	public var cacheUsedImages:Bool = false;
 
 	// preference
-	public var showMem:Bool = true;
-	public var showMemPeak:Bool = true;
+	public var bfStylin:Bool = true;
+	public var showMem:Bool = false;
+	public var showMemPeak:Bool = false;
 	public var showFPS:Bool = false;
 	public var pauseHoldAnims:Bool = true;
 	public var showMS:Bool = false;

@@ -28,6 +28,7 @@ class Stage extends FlxTypedGroup<FlxBasic> {
     "stage",
     "macrocity",
     "deathpod",
+    "airship",
     "airshipHero",
     "airshipVillain",
     "blank"
@@ -88,11 +89,13 @@ class Stage extends FlxTypedGroup<FlxBasic> {
     robotGoinLeft = !robotGoinLeft;
     fuckyoustupidbot.visible=true;
     if(robotGoinLeft){
+      fuckyoustupidbot.flipX=true;
       fuckyoustupidbot.x = 1600;
-      fuckyoustupidbot.velocity.x = -(FlxG.random.int(30, 60) / FlxG.elapsed);
+      fuckyoustupidbot.velocity.x = -(FlxG.random.int(30, 60) / FlxG.elapsed) * 0.3;
     }else{
+      fuckyoustupidbot.flipX=false;
       fuckyoustupidbot.x = -1600;
-      fuckyoustupidbot.velocity.x = (FlxG.random.int(30, 60) / FlxG.elapsed);
+      fuckyoustupidbot.velocity.x = (FlxG.random.int(30, 60) / FlxG.elapsed) * 0.3;
     }
     new FlxTimer().start(7, function(tmr:FlxTimer)
     {
@@ -168,6 +171,9 @@ class Stage extends FlxTypedGroup<FlxBasic> {
       case 'macrocity':
         defaultCamZoom = .9;
         curStage = 'macrocity';
+        gfPosition.y += 250;
+        bfPosition.y -= 50;
+        dadPosition.y -= 50;
         var bg:FlxSprite = new FlxSprite(-300, -50).loadGraphic(Paths.image('macrocity/MC2',"crow"));
         bg.antialiasing = true;
         bg.scrollFactor.set(0.3, 0.3);
@@ -218,8 +224,6 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         var bg:FlxSprite = new FlxSprite(-1000, -1000).loadGraphic(Paths.image('deathpod/BGSky',"crow"));
         bg.antialiasing = true;
         bg.scrollFactor.set(0.05, 0.05);
-        bg.velocity.x = 5;
-        bg.setGraphicSize(Std.int(bg.width*1.75));
         bg.updateHitbox();
         add(bg);
 
@@ -297,6 +301,61 @@ class Stage extends FlxTypedGroup<FlxBasic> {
 
         clouds1.x += baseX;
         clouds1.y += baseY;
+      case 'airshipVillain':
+        dadPosition.y -= 225;
+        bfPosition.y -= 225;
+        gfPosition.y -= 225;
+        dadPosition.x -= 500;
+        bfPosition.x -= 500;
+        gfPosition.x -= 500;
+
+        defaultCamZoom = 0.7;
+        var bg:FlxSprite = new FlxSprite(-400, -250).loadGraphic(Paths.image('airship/villain/BG1_Sky','crow'));
+        bg.antialiasing = true;
+        bg.active = false;
+        bg.setGraphicSize(Std.int(bg.width * 0.9));
+        bg.scrollFactor.set(.05,.05);
+        bg.updateHitbox();
+        add(bg);
+
+        var BG2_Clouds:FlxSprite = new FlxSprite(-800, -300).loadGraphic(Paths.image('airship/villain/BG2_Clouds','crow'));
+        BG2_Clouds.setGraphicSize(Std.int(BG2_Clouds.width * 0.9));
+        BG2_Clouds.antialiasing = true;
+        BG2_Clouds.scrollFactor.set(.2,.2);
+        BG2_Clouds.updateHitbox();
+        add(BG2_Clouds);
+
+        var BG3:FlxSprite = new FlxSprite(-500, -300);
+        BG3.frames = Paths.getSparrowAtlas('airship/villain/BG3','crow');
+        BG3.animation.addByPrefix('twirl', "bg", 24);
+        BG3.scrollFactor.set(0.3, 0.3);
+        BG3.animation.play('twirl');
+        add(BG3);
+
+        var BG4_floor:FlxSprite = new FlxSprite(-800, -300).loadGraphic(Paths.image('airship/villain/BG4_floor','crow'));
+        BG4_floor.scale.set(2,2);
+        BG4_floor.updateHitbox();
+        BG4_floor.active = false;
+        BG4_floor.antialiasing = true;
+        add(BG4_floor);
+
+        var assWind:FlxSprite = new FlxSprite(150, 50);
+        assWind.frames = Paths.getSparrowAtlas('airship/villain/AssLookinWind','crow');
+        assWind.animation.addByPrefix('asswind', "wind", 30);
+        assWind.animation.play('asswind');
+        assWind.antialiasing = true;
+        assWind.setGraphicSize(Std.int(assWind.width * 1.3));
+        assWind.updateHitbox();
+        add(assWind);
+
+        var assWind2:FlxSprite = new FlxSprite(150, 50);
+        assWind2.frames = Paths.getSparrowAtlas('airship/villain/AssLookinWind','crow');
+        assWind2.animation.addByPrefix('asswind', "wind", 30);
+        assWind2.animation.play('asswind');
+        assWind2.antialiasing = true;
+        assWind2.setGraphicSize(Std.int(assWind2.width * 1.7));
+        assWind2.updateHitbox();
+        add(assWind2);
       case 'blank':
         centerX = 400;
         centerY = 130;

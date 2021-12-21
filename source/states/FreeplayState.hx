@@ -325,7 +325,8 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 	function selectSong(){
-		PlayState.setFreeplaySong(songs[curSelected],curDifficulty);
+		PlayState.setFreeplaySong(songs[curSelected],1);
+		PlayState.storyDifficulty = curDifficulty;
 		LoadingState.loadAndSwitchState(new PlayState());
 	}
 	override function update(elapsed:Float)
@@ -391,11 +392,11 @@ class FreeplayState extends MusicBeatState
 		switch (curDifficulty)
 		{
 			case 0:
-				diffText.text = "EASY";
+				diffText.text = "WAT";
 			case 1:
-				diffText.text = 'NORMAL';
+				diffText.text = 'HERO';
 			case 2:
-				diffText.text = "HARD";
+				diffText.text = "VILLAIN";
 		}
 	}
 

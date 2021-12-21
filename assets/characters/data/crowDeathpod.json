@@ -107,22 +107,22 @@
 			"name": "firstDeath"
 		},
 		{
-			"prefix": "Death Confirm0",
 			"offsets": [
 				-68,
 				-82
 			],
 			"fps": 24,
+			"prefix": "Death Confirm0",
 			"name": "deathConfirm",
 			"looped": false
 		},
 		{
-			"prefix": "Death Loop0",
 			"offsets": [
 				-68,
 				-82
 			],
 			"fps": 24,
+			"prefix": "Death Loop0",
 			"name": "deathLoop",
 			"looped": false
 		}

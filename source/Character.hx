@@ -43,6 +43,7 @@ typedef CharJson = {
 
 class Character extends FlxSprite
 {
+	public var stunned:Bool = false;
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
 	public var offsetNames:Array<String>=[];
@@ -255,13 +256,18 @@ class Character extends FlxSprite
 				trace("bruh");
 				flipX = !flipX;
 
-				leftToRight();
+				flip();
 			}
+
+
 
 			if(animation.getByName("idle")!=null)
 				playAnim("idle");
 			else
 				playAnim("danceRight");
+
+
+
 		}else{
 			curCharacter='dad';
 			iconColor = 0xFFAF66CE;
@@ -281,7 +287,7 @@ class Character extends FlxSprite
 			if(isPlayer){
 				flipX = !flipX;
 
-				leftToRight();
+				flip();
 			}
 		}
 	}
@@ -309,7 +315,7 @@ class Character extends FlxSprite
 		}
 	}
 
-	public function leftToRight(){
+	public function flip(){
 		if(animation.getByName('singRIGHT')!=null && animation.getByName('singLEFT')!=null){
 			var oldRight = animation.getByName('singRIGHT').frames;
 			animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
@@ -320,21 +326,6 @@ class Character extends FlxSprite
 				var oldMiss = animation.getByName('singRIGHTmiss').frames;
 				animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
 				animation.getByName('singLEFTmiss').frames = oldMiss;
-			}
-		}
-	}
-
-	public function rightToLeft(){
-		if(animation.getByName('singRIGHT')!=null && animation.getByName('singLEFT')!=null){
-			var old = animation.getByName('singRIGHT').frames;
-			animation.getByName('singLEFT').frames = animation.getByName('singRIGHT').frames;
-			animation.getByName('singRIGHT').frames = old;
-
-			if (animation.getByName('singRIGHTmiss') != null)
-			{
-				var oldMiss = animation.getByName('singLEFTmiss').frames;
-				animation.getByName('singLEFTmiss').frames = animation.getByName('singRIGHTmiss').frames;
-				animation.getByName('singRIGHTmiss').frames = oldMiss;
 			}
 		}
 	}
@@ -418,13 +409,33 @@ class Character extends FlxSprite
 					}
 				}
 			}
+		}else if(!debugMode){
+			if(animation.curAnim!=null){
+				if (animation.curAnim.name.startsWith('sing'))
+				{
+					holdTimer += elapsed;
+				}
+				else
+					holdTimer = 0;
 
-			switch (curCharacter)
-			{
-				case 'gf':
-					if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
-						playAnim('danceRight');
+				if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
+				{
+					playAnim('idle', true, false, 10);
+				}
+
+				if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished)
+				{
+					playAnim('deathLoop');
+				}
+
 			}
+		}
+
+		switch (curCharacter)
+		{
+			case 'gf':
+				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
+					playAnim('danceRight');
 		}
 
 		super.update(elapsed);

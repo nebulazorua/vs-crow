@@ -33,7 +33,7 @@ import ui.*;
 class OffsetEditorState extends FlxState
 {
 	var UI_box:FlxUITabMenu;
-	var bf:Boyfriend;
+	var bf:Character;
 	var dad:Character;
 	var char:Character;
 	var textAnim:FlxText;
@@ -224,7 +224,7 @@ class OffsetEditorState extends FlxState
 		}
 		else
 		{
-			bf = new Boyfriend(0, 0, daAnim);
+			bf = new Character(0, 0, daAnim, true);
 			bf.screenCenter();
 			bf.debugMode = true;
 			layeringbullshit.add(bf);

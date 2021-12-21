@@ -28,7 +28,7 @@ class CharacterEditorState extends MusicBeatState {
   var previousState:FlxUIState;
   var stage:Stage;
   var dad:Character;
-  var boyfriend:Boyfriend;
+  var boyfriend:Character;
   var layering:FlxTypedGroup<FlxSprite>;
   var camFollow:FlxObject;
   var char:String='bf';
@@ -140,7 +140,7 @@ class CharacterEditorState extends MusicBeatState {
       dad = new Character(100,100,char);
       curCharacter=dad;
     }else{
-      boyfriend = new Boyfriend(100,100,char);
+      boyfriend = new Character(100,100,char,true);
       curCharacter=boyfriend;
     }
     if(resetVars){
@@ -258,7 +258,7 @@ class CharacterEditorState extends MusicBeatState {
     FlxCamera.defaultCameras = [camGame];
     Conductor.changeBPM(160);
     FlxG.sound.playMusic(Paths.music('breakfast','shared'));
-    stage = new Stage('deathpod',EngineData.options);
+    stage = new Stage('macrocity',EngineData.options);
     add(stage);
     stage.doDistractions=false;
 
@@ -409,7 +409,7 @@ class CharacterEditorState extends MusicBeatState {
     zoom = FlxMath.lerp(zoom, stage.defaultCamZoom, Main.adjustFPS(0.1));
     camGame.zoom=zoom;
     var mid =curCharacter.getMidpoint();
-    if((curCharacter is Boyfriend)){
+    if(curCharacter.isPlayer){
       camFollow.setPosition(mid.x - stage.camOffset.x  + curCharacter.camOffset.x, mid.y - stage.camOffset.y + curCharacter.camOffset.y);
     }else{
       camFollow.setPosition(mid.x + curCharacter.camOffset.x, mid.y + curCharacter.camOffset.y);
@@ -663,7 +663,8 @@ class CharacterEditorState extends MusicBeatState {
 
       var name = nameBox.text;
       var idx:Int=0;
-      var curPlaying = curCharacter.animation.curAnim.name;
+      var curPlaying = '';
+      if(curCharacter.animation.curAnim!=null) curPlaying = curCharacter.animation.curAnim.name;
       for(anim in curCharacter.charData.anims){
         if(anim.name==name){
           if(curCharacter.animation.getByName(anim.name)!=null){
