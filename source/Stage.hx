@@ -302,15 +302,15 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         clouds1.x += baseX;
         clouds1.y += baseY;
       case 'airshipVillain':
-        dadPosition.y -= 225;
-        bfPosition.y -= 225;
-        gfPosition.y -= 225;
-        dadPosition.x -= 500;
-        bfPosition.x -= 500;
+        dadPosition.y -= 200;
+        bfPosition.y -= 200;
+        gfPosition.y -= 200;
+        dadPosition.x -= 950;
+        bfPosition.x -= 175;
         gfPosition.x -= 500;
 
         defaultCamZoom = 0.7;
-        var bg:FlxSprite = new FlxSprite(-400, -250).loadGraphic(Paths.image('airship/villain/BG1_Sky','crow'));
+        var bg:FlxSprite = new FlxSprite(-400, -250).loadGraphic(Paths.image('airship/villain/BG1','crow'));
         bg.antialiasing = true;
         bg.active = false;
         bg.setGraphicSize(Std.int(bg.width * 0.9));
@@ -318,44 +318,130 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         bg.updateHitbox();
         add(bg);
 
-        var BG2_Clouds:FlxSprite = new FlxSprite(-800, -300).loadGraphic(Paths.image('airship/villain/BG2_Clouds','crow'));
-        BG2_Clouds.setGraphicSize(Std.int(BG2_Clouds.width * 0.9));
-        BG2_Clouds.antialiasing = true;
-        BG2_Clouds.scrollFactor.set(.2,.2);
-        BG2_Clouds.updateHitbox();
-        add(BG2_Clouds);
+        var clouds:FlxSprite = new FlxSprite(-800, -300).loadGraphic(Paths.image('airship/villain/BG2','crow'));
+        clouds.setGraphicSize(Std.int(clouds.width * 0.9));
+        clouds.antialiasing = true;
+        clouds.scrollFactor.set(.2,.2);
+        clouds.updateHitbox();
+        add(clouds);
 
-        var BG3:FlxSprite = new FlxSprite(-500, -300);
-        BG3.frames = Paths.getSparrowAtlas('airship/villain/BG3','crow');
-        BG3.animation.addByPrefix('twirl', "bg", 24);
-        BG3.scrollFactor.set(0.3, 0.3);
-        BG3.animation.play('twirl');
-        add(BG3);
+        var propeller:FlxSprite = new FlxSprite(-600, -300);
+        propeller.frames = Paths.getSparrowAtlas('airship/villain/BG3','crow');
+        propeller.animation.addByPrefix('twirl', "bg", 24);
+        propeller.scrollFactor.set(0.3, 0.3);
+        propeller.animation.play('twirl');
+        add(propeller);
 
-        var BG4_floor:FlxSprite = new FlxSprite(-800, -300).loadGraphic(Paths.image('airship/villain/BG4_floor','crow'));
-        BG4_floor.scale.set(2,2);
-        BG4_floor.updateHitbox();
-        BG4_floor.active = false;
-        BG4_floor.antialiasing = true;
-        add(BG4_floor);
-
-        var assWind:FlxSprite = new FlxSprite(150, 50);
+        var assWind:FlxSprite = new FlxSprite(50, 50);
         assWind.frames = Paths.getSparrowAtlas('airship/villain/AssLookinWind','crow');
         assWind.animation.addByPrefix('asswind', "wind", 30);
         assWind.animation.play('asswind');
         assWind.antialiasing = true;
+        assWind.scrollFactor.set(0.3,0.3);
         assWind.setGraphicSize(Std.int(assWind.width * 1.3));
         assWind.updateHitbox();
         add(assWind);
 
-        var assWind2:FlxSprite = new FlxSprite(150, 50);
+        var assWind2:FlxSprite = new FlxSprite(50, 50);
         assWind2.frames = Paths.getSparrowAtlas('airship/villain/AssLookinWind','crow');
         assWind2.animation.addByPrefix('asswind', "wind", 30);
         assWind2.animation.play('asswind');
         assWind2.antialiasing = true;
+        assWind2.scrollFactor.set(0.3,0.3);
         assWind2.setGraphicSize(Std.int(assWind2.width * 1.7));
         assWind2.updateHitbox();
         add(assWind2);
+
+        var floor:FlxSprite = new FlxSprite(-800, -600).loadGraphic(Paths.image('airship/villain/BG4','crow'));
+        floor.setGraphicSize(Std.int(floor.width*2));
+        floor.active = false;
+        floor.antialiasing = true;
+        add(floor);
+
+        var lackeys:FlxSprite = new FlxSprite(-1900,-300);
+        lackeys.frames = Paths.getSparrowAtlas("airship/villain/MarioCrowdVillain","crow");
+        lackeys.animation.addByPrefix("idle","MarioCrowdVillain idle",24,false);
+        lackeys.antialiasing=true;
+        lackeys.updateHitbox();
+        boppers.push([lackeys,"idle",1]);
+        add(lackeys);
+      case 'airshipHero':
+        dadPosition.y -= 200;
+        bfPosition.y -= 200;
+        gfPosition.y -= 595;
+        dadPosition.x -= 950;
+        bfPosition.x -= 175;
+        gfPosition.x -= 500;
+
+        defaultCamZoom = 0.7;
+        var bg:FlxSprite = new FlxSprite(-400, -250).loadGraphic(Paths.image('airship/hero/BG1','crow'));
+        bg.antialiasing = true;
+        bg.active = false;
+        bg.setGraphicSize(Std.int(bg.width * 0.9));
+        bg.scrollFactor.set(.05,.05);
+        bg.updateHitbox();
+        add(bg);
+
+        var clouds:FlxSprite = new FlxSprite(-800, -300).loadGraphic(Paths.image('airship/hero/BG2','crow'));
+        clouds.setGraphicSize(Std.int(clouds.width * 0.9));
+        clouds.antialiasing = true;
+        clouds.scrollFactor.set(.2,.2);
+        clouds.updateHitbox();
+        add(clouds);
+
+        var propeller:FlxSprite = new FlxSprite(-600, -300);
+        propeller.frames = Paths.getSparrowAtlas('airship/hero/BG3','crow');
+        propeller.animation.addByPrefix('twirl', "bg", 24);
+        propeller.scrollFactor.set(0.3, 0.3);
+        propeller.animation.play('twirl');
+        add(propeller);
+
+        var assWind:FlxSprite = new FlxSprite(50, 50);
+        assWind.frames = Paths.getSparrowAtlas('airship/hero/AssLookinWind','crow');
+        assWind.animation.addByPrefix('asswind', "wind", 30);
+        assWind.animation.play('asswind');
+        assWind.antialiasing = true;
+        assWind.scrollFactor.set(0.3,0.3);
+        assWind.setGraphicSize(Std.int(assWind.width * 1.3));
+        assWind.updateHitbox();
+        add(assWind);
+
+        var assWind2:FlxSprite = new FlxSprite(50, 50);
+        assWind2.frames = Paths.getSparrowAtlas('airship/hero/AssLookinWind','crow');
+        assWind2.animation.addByPrefix('asswind', "wind", 30);
+        assWind2.animation.play('asswind');
+        assWind2.antialiasing = true;
+        assWind2.scrollFactor.set(0.3,0.3);
+        assWind2.setGraphicSize(Std.int(assWind2.width * 1.7));
+        assWind2.updateHitbox();
+        add(assWind2);
+
+        var floor:FlxSprite = new FlxSprite(-800, -600).loadGraphic(Paths.image('airship/hero/BG4','crow'));
+        floor.setGraphicSize(Std.int(floor.width*2));
+        floor.active = false;
+        floor.antialiasing = true;
+        add(floor);
+
+        var smonk:FlxSprite = new FlxSprite(-675,-720);
+        smonk.frames = Paths.getSparrowAtlas("airship/hero/Smoke","crow");
+        smonk.animation.addByPrefix("idle","Smoke",24);
+        smonk.animation.play("idle",true);
+        smonk.antialiasing=true;
+        smonk.updateHitbox();
+        add(smonk);
+
+        var brokenPod:FlxSprite = new FlxSprite(-1450,-200).loadGraphic(Paths.image("airship/hero/Deadpod","crow"));
+        brokenPod.antialiasing=true;
+        add(brokenPod);
+
+        var lackeys:FlxSprite = new FlxSprite(-1900,-525);
+        lackeys.frames = Paths.getSparrowAtlas("airship/hero/MarioCrowdHero","crow");
+        lackeys.animation.addByPrefix("idle","MarioCrowdVillain idle",24,false);
+        lackeys.antialiasing=true;
+        lackeys.updateHitbox();
+        boppers.push([lackeys,"idle",1]);
+        add(lackeys);
+
       case 'blank':
         centerX = 400;
         centerY = 130;

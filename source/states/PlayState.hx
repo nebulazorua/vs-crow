@@ -681,9 +681,15 @@ class PlayState extends MusicBeatState
 			noteModifier='base';
 		}
 
+		var player2 = SONG.player2;
 		switch(stage.curStage){
 			case 'deathpod':
 				gfVersion = 'gfDp';
+			case 'airshipHero':
+				gfVersion = 'gfNoSpeaker';
+				if(player2=='crow-nogf'){
+					player2 = 'crowhelmetless';
+				}
 			case 'airshipVillain':
 				gfVersion = 'becky';
 		}
@@ -701,7 +707,7 @@ class PlayState extends MusicBeatState
 
 		boyfriend = new Character(770, 450, SONG.player1, true, !currentOptions.noChars);
 		stage.boyfriend=boyfriend;
-		dad = new Character(100, 100, SONG.player2, false, !currentOptions.noChars);
+		dad = new Character(100, 100, player2, false, !currentOptions.noChars);
 		stage.dad=dad;
 
 		if(storyDifficulty==2){
@@ -2823,6 +2829,13 @@ class PlayState extends MusicBeatState
 
 			rating.x += currentOptions.judgeX;
 			rating.y += currentOptions.judgeY;
+
+			if(curStage=='deathpod'){
+				rating.y += 250;
+				rating.x += 100;
+			}else if(curStage.startsWith("airship")){
+				rating.x -= 300;
+			}
 
 			if(currentOptions.smJudges){
 				if(judge!=null && judge.alive){
