@@ -1,0 +1,5 @@
+crow/normal:Surprised you made it this far. Well, welcome to my flagship, Sovereign!
+crow/pride:I built this myself, you know!
+bf/angy:Beep boop!
+crow/normal:I am impressed, but this'll be your final stop.
+crow/normal:Becky! Load up the 'final boss' track!

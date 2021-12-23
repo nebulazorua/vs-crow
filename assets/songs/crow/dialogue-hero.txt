@@ -1,0 +1,11 @@
+crow/normal:Stop me if you've heard this one before.
+crow/normal:Bad guy crashes party, kidnaps princess
+crow/normal:Makes dramatic exit.
+crow/normal:Plucky, handsome hero gives chase.
+crow/normal:Epic quest ensues, but, funny story.
+crow/normal:Yeah, I'm the bad guy!
+crow/normal:Crow!
+bf/angy:Beep! Ska boop!
+crow/normal:Hey, I need your girlfriend's fiendish powers for my doomsday device, so I'm borrowing her permenantly!
+gf/cry:Let me go!
+bf/normal:Boop!

@@ -520,28 +520,13 @@ class PlayState extends MusicBeatState
 
 
 
+		var suffix = '-hero';
+		if(storyDifficulty==2)suffix='-villain';
 		switch (songData.chartName.toLowerCase())
 		{
-			case 'tutorial':
-				dialogue = ["Hey you're pretty cute.", 'Use the arrow keys to keep up \nwith me singing.'];
-			case 'bopeebo':
-				dialogue = [
-					'HEY!',
-					"You think you can just sing\nwith my daughter like that?",
-					"If you want to date her...",
-					"You're going to have to go \nthrough ME first!"
-				];
-			case 'fresh':
-				dialogue = ["Not too shabby boy.", ""];
-			case 'dadbattle':
-				dialogue = [
-					"gah you think you're hot stuff?",
-					"If you can beat me here...",
-					"Only then I will even CONSIDER letting you\ndate my daughter!"
-				];
 			default:
 				try {
-					dialogue = CoolUtil.coolTextFile2(File.getContent(Paths.dialogue(songData.chartName.toLowerCase() + "/dialogue")));
+					dialogue = CoolUtil.coolTextFile2(File.getContent(Paths.dialogue(songData.chartName.toLowerCase() + "/dialogue"  + suffix)));
 				} catch(e){
 					trace("epic style " + e.message);
 				}
@@ -963,6 +948,10 @@ class PlayState extends MusicBeatState
 					schoolIntro(doof);
 				case 'thorns':
 					schoolIntro(doof);
+				case 'your-end' | 'boss':
+					showDialogue(doof);
+				case 'crow':
+					stinkyDialogue(doof);
 				default:
 					startCountdown();
 			}
@@ -975,6 +964,33 @@ class PlayState extends MusicBeatState
 					startCountdown();
 			}
 		}
+	}
+
+	function stinkyDialogue(doof: DialogueBox){
+		var num:Int = 0;
+
+		var sounds = [
+			FlxG.sound.load(Paths.sound("openingLine/stopme"),1),
+			FlxG.sound.load(Paths.sound("openingLine/crashparty"),1),
+			FlxG.sound.load(Paths.sound("openingLine/exit"),1),
+			FlxG.sound.load(Paths.sound("openingLine/hero"),1),
+			FlxG.sound.load(Paths.sound("openingLine/questEnsues"),1),
+			FlxG.sound.load(Paths.sound("openingLine/imthebadguy"),1),
+			FlxG.sound.load(Paths.sound("openingLine/crow"),1)
+		];
+		var currentSound:FlxSound = sounds[0];
+		doof.nextLine = function(){
+			if(num<=6){
+				if(num==5){
+				}
+				for(sound in sounds){
+					sound.stop();
+				}
+				sounds[num].play();
+			}
+			num++;
+		}
+		showDialogue(doof);
 
 	}
 
@@ -1034,6 +1050,17 @@ class PlayState extends MusicBeatState
 
 		}
 	}
+
+	function showDialogue(?d:DialogueBox):Void {
+		new FlxTimer().start(0.3, function(tmr:FlxTimer){
+			if (d != null)
+			{
+				inCutscene = true;
+				add(d);
+			}
+		});
+	}
+
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
@@ -1337,6 +1364,10 @@ class PlayState extends MusicBeatState
 			vocals = new FlxSound();
 
 		inst = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.inst(SONG.song)}'));
+		if(curSong.toLowerCase()!='tutorial'){
+			inst.volume = 0.7;
+			vocals.volume = 0.75;
+		}
 		//inst = new FlxSound().loadEmbedded(Paths.inst(SONG.song));
 		inst.looped=false;
 
@@ -1884,7 +1915,6 @@ class PlayState extends MusicBeatState
 			vcrDistortionHUD.update(elapsed);
 			vcrDistortionGame.update(elapsed);
 		}
-		modManager.update(elapsed);
 		opponent = opponents.length>0?opponents[opponentIdx]:dad;
 		if(storyDifficulty==2)
 			playing=opponent;
@@ -1969,6 +1999,8 @@ class PlayState extends MusicBeatState
 		{
 			if (startedCountdown)
 			{
+				modManager.update(elapsed);
+
 				Conductor.rawSongPos += FlxG.elapsed * 1000;
 				if (Conductor.rawSongPos >= startPos)
 					startSong();
@@ -1977,6 +2009,8 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
+			modManager.update(elapsed);
+
 			// Conductor.songPosition = inst.time;
 			Conductor.rawSongPos += FlxG.elapsed * 1000;
 			if(Conductor.rawSongPos>=vocals.length && vocals.length>0){
@@ -2670,10 +2704,19 @@ class PlayState extends MusicBeatState
 						numScore.scrollFactor.set(0,0);
 						numScore.y += 50;
 						numScore.x -= 50;
+					}else{
+						if(curStage=='deathpod'){
+							numScore.y += 300;
+							numScore.x += 600;
+						}else if(curStage.startsWith("airship")){
+							numScore.x -= 600;
+						}
 					}
 					numScore.cameras=ratingCameras;
 					numScore.x += currentOptions.judgeX;
 					numScore.y += currentOptions.judgeY;
+
+
 
 					add(numScore);
 					if(currentOptions.persistentCombo){
@@ -2825,17 +2868,18 @@ class PlayState extends MusicBeatState
 				rating.screenCenter();
 				coolText.screenCenter();
 				rating.y -= 25;
+			}else{
+				if(curStage=='deathpod'){
+					rating.y += 300;
+					rating.x += 600;
+				}else if(curStage.startsWith("airship")){
+					rating.x -= 600;
+				}
 			}
 
 			rating.x += currentOptions.judgeX;
 			rating.y += currentOptions.judgeY;
 
-			if(curStage=='deathpod'){
-				rating.y += 250;
-				rating.x += 100;
-			}else if(curStage.startsWith("airship")){
-				rating.x -= 300;
-			}
 
 			if(currentOptions.smJudges){
 				if(judge!=null && judge.alive){
@@ -2969,6 +3013,13 @@ class PlayState extends MusicBeatState
 					numScore.y += 10;
 					numScore.x += 75;
 					numScore.scrollFactor.set(0,0);
+				}else{
+					if(curStage=='deathpod'){
+						numScore.y += 300;
+						numScore.x += 600;
+					}else if(curStage.startsWith("airship")){
+						numScore.x -= 600;
+					}
 				}
 
 				numScore.x += currentOptions.judgeX;
@@ -3517,7 +3568,7 @@ class PlayState extends MusicBeatState
 		isStoryMode = true;
 		storyDifficulty = difficulty;
 
-		SONG = Song.loadFromJson(data.songs[0].formatDifficulty(difficulty), storyPlaylist[0].toLowerCase());
+		SONG = Song.loadFromJson(data.songs[0].formatDifficulty(1), storyPlaylist[0].toLowerCase());
 		storyWeek = weekData.weekNum;
 		campaignScore = 0;
 
@@ -3532,7 +3583,7 @@ class PlayState extends MusicBeatState
 		storyPlaylist.remove(storyPlaylist[0]);
 		if(storyPlaylist.length>0){
 			var songData = weekData.getByChartName(storyPlaylist[0]);
-			SONG = Song.loadFromJson(songData.formatDifficulty(storyDifficulty), songData.chartName.toLowerCase());
+			SONG = Song.loadFromJson(songData.formatDifficulty(1), songData.chartName.toLowerCase());
 
 			PlayState.songData=songData;
 		}
@@ -3551,7 +3602,7 @@ class PlayState extends MusicBeatState
 		PlayState.startPos = 0;
 		PlayState.charterPos = 0;
 		PlayState.songData=songData;
-		SONG = Song.loadFromJson(songData.formatDifficulty(difficulty), songData.chartName.toLowerCase());
+		SONG = Song.loadFromJson(songData.formatDifficulty(1), songData.chartName.toLowerCase());
 		weekData = new WeekData("Freeplay",songData.weekNum,'dad',[songData],'bf','gf',songData.loadingPath);
 		// TODO: maybe have a "setPlaylist" function which takes WeekData and have FreeplayState create a temporary one n shit
 		// could also be used to have custom 'freeplay playlists' where you play multiple songs in a row without being in story mode
