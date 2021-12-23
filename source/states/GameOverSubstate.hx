@@ -13,11 +13,10 @@ using StringTools;
 class GameOverSubstate extends MusicBeatSubstate
 {
 	var lines:Array<String> = [
-		"gitgud",
 		"heroesalwayslose",
 		"laugh1",
 		"laugh2",
-		"waitiwon"
+		"kickyourbutt",
 	];
 	var bf:Character;
 	var camFollow:FlxObject;

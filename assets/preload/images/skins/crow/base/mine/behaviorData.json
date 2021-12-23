@@ -3,7 +3,36 @@
   "scale": 0.7,
   "antialiasing": true,
   "arguments": {
-      "noHolds": true,
+    "splashes":{
+        "alpha": 1,
+        "always": true,
+        "sheet": "Explosion",
+        "scale":1,
+        "left":{
+          "framerate": 30,
+          "offsetX": -115,
+          "offsetY": -115,
+          "prefix": "Explosion0"
+        },
+        "up":{
+          "framerate": 30,
+          "offsetX": -115,
+          "offsetY": -115,
+          "prefix": "Explosion0"
+        },
+        "down":{
+          "framerate": 30,
+          "offsetX": -115,
+          "offsetY": -115,
+          "prefix": "Explosion0"
+        },
+        "right":{
+          "framerate": 30,
+          "offsetX": -115,
+          "offsetY": -115,
+          "prefix": "Explosion0"
+        }
+      },
       "notes":{
         "sheet": "MINES",
         "up":{

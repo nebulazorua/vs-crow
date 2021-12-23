@@ -144,8 +144,14 @@ class FreeplayState extends MusicBeatState
 			addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit'])
 		*/
 
+		MainMenuState.freeplayNotif=false;
+
 		for(week in EngineData.weekData){
 			addWeekData(week);
+		}
+
+		if(FlxG.save.data.completedHero && FlxG.save.data.completedVillain){
+			addSongData(new EngineData.SongData("Bein' Bad","becky",1,"bein-bad","crow"));
 		}
 
 		var otherSongs = Paths.getDirs("songs","assets");
@@ -276,26 +282,16 @@ class FreeplayState extends MusicBeatState
 		songs.push(songData);
 		var songDiffs:Array<Int> = [];
 		if(FileSystem.isDirectory('assets/songs/${songData.chartName.toLowerCase()}') ){
-			for (file in FileSystem.readDirectory('assets/songs/${songData.chartName.toLowerCase()}'))
-			{
-				if(file.endsWith(".json") && !FileSystem.isDirectory(file)){
-					var difficultyName = file.replace(".json","").replace(songData.chartName.toLowerCase(),"");
-					switch(difficultyName.toLowerCase()){
-						case '-easy':
-							songDiffs.push(0);
-						case '':
-							songDiffs.push(1);
-						case '-hard':
-							songDiffs.push(2);
-					}
-				}
-			}
+			if(songData.chartName.toLowerCase()=='bein-bad')
+				songDiffs=[2];
+			else
+				songDiffs = [1,2];
 
 			songDiffs.sort((a,b)->Std.int(a-b));
 
 			difficulties.push(songDiffs);
 		}else{
-			difficulties.push([1,0,2]);
+			difficulties.push([0,1,2]);
 		}
 	}
 

@@ -539,7 +539,10 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.playMusic(CoolUtil.getSound('${Paths.inst(daSong)}'), 0.6);
 
 		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
-		vocals = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.voices(daSong)}'));
+		if(daSong.toLowerCase()=='your-end' && PlayState.storyDifficulty==1)
+			vocals = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.herovoices(daSong)}'));
+		else
+			vocals = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.voices(daSong)}'));
 		FlxG.sound.list.add(vocals);
 
 		FlxG.sound.music.pause();

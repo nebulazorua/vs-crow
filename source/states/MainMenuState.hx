@@ -24,6 +24,9 @@ import flixel.input.mouse.FlxMouseEventManager;
 import ui.*;
 class MainMenuState extends MusicBeatState
 {
+	public static var freeplayNotif:Bool=false;
+	var freeplayNotifSpr:FlxSprite;
+
 	var curSelected:Int = 0;
 	public var currentOptions:Options;
 
@@ -31,9 +34,9 @@ class MainMenuState extends MusicBeatState
 	var gfDance:Character;
 
 	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
 	#else
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'];
 	#end
 
 	var magenta:FlxSprite;
@@ -85,9 +88,9 @@ class MainMenuState extends MusicBeatState
 		if (optionShit[curSelected] == 'donate')
 		{
 			#if linux
-			Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
+			Sys.command('/usr/bin/xdg-open', ["https://store.steampowered.com/app/448290/Nefarious/", "&"]);
 			#else
-			FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
+			FlxG.openURL("https://store.steampowered.com/app/448290/Nefarious/");
 			#end
 		}
 		else
@@ -202,6 +205,13 @@ class MainMenuState extends MusicBeatState
 
 		var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
 
+		freeplayNotifSpr = new FlxSprite();
+		freeplayNotifSpr.loadGraphic(Paths.image("notif"));
+		freeplayNotifSpr.antialiasing=true;
+		freeplayNotifSpr.scrollFactor.set();
+		if(freeplayNotif)
+			add(freeplayNotifSpr);
+
 		for (i in 0...optionShit.length)
 			{
 				var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
@@ -279,6 +289,9 @@ class MainMenuState extends MusicBeatState
 		menuItems.forEach(function(spr:FlxSprite)
 			{
 				spr.screenCenter(X);
+				if(optionShit[spr.ID] == 'freeplay'){
+					freeplayNotifSpr.setPosition(spr.x + spr.width - 20, spr.y - 30);
+				}
 			});
 
 	}

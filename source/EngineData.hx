@@ -21,14 +21,14 @@ class EngineData {
   public static var weeksUnlocked:Array<Bool>=[true];
   public static var mustUnlockWeeks:Bool=false; // TODO: make this work
   public static var weekData:Array<WeekData> = [
-    new WeekData("Funkin' Virgin",0,'gf',[
-      "Tutorial",
-    ],"bf","","tutorial"),
+    new WeekData("Funkin' Virgin",0,'',[
+      new SongData("Tutorial","gf",0),
+    ],'bf','gf','tutorial'),
     new WeekData("FNF x Nefarious",1,'crow',[
       "Crow",
       "Boss",
       "Your End"
-    ],"bf","gf","crow"),
+    ],"bf","","crow"),
   ];
 }
 

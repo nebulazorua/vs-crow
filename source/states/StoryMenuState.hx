@@ -36,6 +36,7 @@ class StoryMenuState extends MusicBeatState
 	var curWeek:Int = 0;
 
 	var txtTracklist:FlxText;
+	var tween:FlxTween;
 
 	var grpWeekText:FlxTypedGroup<StoryMenuItem>;
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
@@ -47,7 +48,8 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 	var weekData:Array<WeekData>;
-
+	var yellowBG:FlxSprite;
+	var purpleBG:FlxSprite;
 	override function create()
 	{
 		super.create();
@@ -81,7 +83,8 @@ class StoryMenuState extends MusicBeatState
 		rankText.screenCenter(X);
 
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
-		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
+		yellowBG = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
+		purpleBG = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFA352EB);
 
 		grpWeekText = new FlxTypedGroup<StoryMenuItem>();
 		add(grpWeekText);
@@ -150,10 +153,9 @@ class StoryMenuState extends MusicBeatState
 
 		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y);
 		sprDifficulty.frames = ui_tex;
-		sprDifficulty.animation.addByPrefix('easy', 'EASY');
 		sprDifficulty.animation.addByPrefix('normal', 'NORMAL');
 		sprDifficulty.animation.addByPrefix('hard', 'HARD');
-		sprDifficulty.animation.play('easy');
+		sprDifficulty.animation.play('normal');
 		changeDifficulty();
 
 		difficultySelectors.add(sprDifficulty);
@@ -167,7 +169,7 @@ class StoryMenuState extends MusicBeatState
 		difficultySelectors.add(rightArrow);
 
 		trace("Line 150");
-
+		add(purpleBG);
 		add(yellowBG);
 		add(grpWeekCharacters);
 
@@ -284,18 +286,15 @@ class StoryMenuState extends MusicBeatState
 	{
 		curDifficulty += change;
 
-		if (curDifficulty < 0)
+		if (curDifficulty < 1)
 			curDifficulty = 2;
 		if (curDifficulty > 2)
-			curDifficulty = 0;
+			curDifficulty = 1;
 
 		sprDifficulty.offset.x = 0;
 
 		switch (curDifficulty)
 		{
-			case 0:
-				sprDifficulty.animation.play('easy');
-				sprDifficulty.offset.x = 20;
 			case 1:
 				sprDifficulty.animation.play('normal');
 				sprDifficulty.offset.x = 70;
@@ -326,6 +325,8 @@ class StoryMenuState extends MusicBeatState
 
 	function changeWeek(change:Int = 0):Void
 	{
+		var prevWeek = curWeek;
+
 		curWeek += change;
 
 		if (curWeek >= weekData.length)
@@ -343,6 +344,30 @@ class StoryMenuState extends MusicBeatState
 			else
 				item.alpha = 0.6;
 			bullShit++;
+		}
+
+		if(curWeek==1){
+			if(tween!=null){
+				tween.cancel();
+				tween=null;
+			}
+			tween = FlxTween.tween(yellowBG, {alpha: 0}, 0.2,{
+				onComplete: function(t:FlxTween)
+				{
+					tween=null;
+				}
+			});
+		}else if(prevWeek==1){
+			if(tween!=null){
+				tween.cancel();
+				tween=null;
+			}
+			tween = FlxTween.tween(yellowBG, {alpha: 1}, 0.2,{
+				onComplete: function(t:FlxTween)
+				{
+					tween=null;
+				}
+			});
 		}
 
 		FlxG.sound.play(Paths.sound('scrollMenu'));

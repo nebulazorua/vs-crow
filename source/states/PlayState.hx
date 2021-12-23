@@ -682,6 +682,12 @@ class PlayState extends MusicBeatState
 			case 'crow':
 				if(gfVersion!='becky')
 					gfVersion = 'speakers';
+			case 'becky_singing':
+				gfVersion = 'jukebox';
+		}
+		switch(SONG.player1){
+			case 'becky_singing':
+				gfVersion = 'jukebox';
 		}
 
 
@@ -1323,7 +1329,10 @@ class PlayState extends MusicBeatState
 		curSong = SONG.song;
 
 		if (SONG.needsVoices){
-			vocals = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.voices(SONG.song)}'));
+			if(SONG.song.toLowerCase()=='your-end' && storyDifficulty==1)
+				vocals = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.herovoices(SONG.song)}'));
+			else
+				vocals = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.voices(SONG.song)}'));
 			//vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song));
 		}else
 			vocals = new FlxSound();
@@ -1373,7 +1382,7 @@ class PlayState extends MusicBeatState
 		}*/
 		scrollSpeed = 1;//(currentOptions.downScroll?-1:1);
 		var setupTypes:Array<String>=[];
-		var setupMods:Array<String>=[];
+		var setupMods:Map<String,NoteSplash>=[];
 		var loadingSplash = new NoteSplash(0,0);
 		loadingSplash.visible=false;
 
@@ -1394,11 +1403,13 @@ class PlayState extends MusicBeatState
 					gottaHitNote = !section.mustHitSection;
 
 				var useCrowMod = gottaHitNote?false:true;
+				var player = gottaHitNote?0:1;
+				if(storyDifficulty==2){
+					gottaHitNote=!gottaHitNote;
+				}
 
-
-				if(storyDifficulty==2)gottaHitNote=!gottaHitNote;
-				if(!SONG.player2.contains('crow'))useCrowMod=false;
-
+				if(player==1 && (SONG.player2.contains("crow") || SONG.player2.contains("becky")))useCrowMod=true;
+				if(player==0 && (SONG.player1.contains("crow") || SONG.player1.contains("becky")))useCrowMod=true;
 
 
 				var oldNote:Note;
@@ -1421,9 +1432,15 @@ class PlayState extends MusicBeatState
 				swagNote.sustainLength = songNotes[2];
 				swagNote.scrollFactor.set(0, 0);
 				swagNote.cameras = [camNotes];
-				if(!setupTypes.contains(swagNote.graphicType) || !setupMods.contains(swagNote.modifier)){
-					loadingSplash.setup(swagNote);
-					setupMods.push(swagNote.modifier);
+
+				var loadSplash = setupMods.get(swagNote.modifier);
+				if(loadSplash==null){
+					loadSplash = new NoteSplash(0,0);
+					loadSplash.visible=false;
+					setupMods.set(swagNote.modifier,loadSplash);
+				}
+				if(!setupTypes.contains(swagNote.graphicType)){
+					loadSplash.setup(swagNote);
 					setupTypes.push(swagNote.graphicType);
 				}
 
@@ -1563,12 +1580,9 @@ class PlayState extends MusicBeatState
 		{
 			var dirs = ["left","down","up","right"];
 			var clrs = ["purple","blue","green","red"];
-			var mod = player==0?"crow":noteModifier;
-			if(storyDifficulty==2) mod=player==1?"crow":noteModifier;
-			if(!SONG.player2.contains('crow')){
-				mod = noteModifier;
-			}
-
+			var mod = noteModifier;
+			if(player==1 && (SONG.player1.contains("crow") || SONG.player1.contains("becky")))mod='crow';
+			if(player==0 && (SONG.player2.contains("crow") || SONG.player2.contains("becky")))mod='crow';
 			var babyArrow:Receptor = new Receptor(0, center.y, i, currentOptions.noteSkin, mod, Note.noteBehaviour);
 			noteSplashes.add(babyArrow.noteSplash);
 
@@ -2346,13 +2360,16 @@ class PlayState extends MusicBeatState
 								health += 0.25; // they hit a mine, not you
 						}
 
+						var drain = 0.0;
 						if(!daNote.isSustainNote){
-							if(storyDifficulty==2){
-								health -= judgeMan.getJudgementHealth("sick");
+							if(storyDifficulty==2 && notPlaying.curCharacter.contains("bf")){
+								drain = judgeMan.getJudgementHealth("sick");
 							}else{
-								health -= modchart.opponentHPDrain;
+								drain= modchart.opponentHPDrain;
 							}
 						}
+
+						if(health>drain)health-=drain;
 
 							//if(!daNote.isSustainNote){
 
@@ -2380,7 +2397,7 @@ class PlayState extends MusicBeatState
 								lua.call("dadNoteHit",[Math.abs(daNote.noteData),daNote.strumTime,Conductor.songPosition,anim]); // TODO: Note lua class???
 							}
 						if(notPlaying.animation.curAnim!=null){
-							if(storyDifficulty==2 && !daNote.isSustainNote && currentOptions.bfStylin){
+							if(storyDifficulty==2 && !daNote.isSustainNote && currentOptions.bfStylin && notPlaying.curCharacter.contains("bf")){
 								bfPopupScore("sick");
 							}
 							var canHold = daNote.isSustainNote && notPlaying.animation.getByName(anim+"Hold")!=null;
@@ -2536,12 +2553,32 @@ class PlayState extends MusicBeatState
 				if (storyPlaylist.length <= 0)
 				{
 
+					var villain = FlxG.save.data.completedVillain;
+					var hero = FlxG.save.data.completedHero;
+
+					var newFreeplay = false;
+					if(storyDifficulty==2 && !villain){
+						if(hero){
+							MainMenuState.freeplayNotif=true;
+						}
+						FlxG.save.data.completedVillain=true;
+					}
+
+					if(storyDifficulty==1 && !hero){
+						if(villain){
+							MainMenuState.freeplayNotif=true;
+						}
+						FlxG.save.data.completedHero=true;
+					}
+
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 
 					transIn = FlxTransitionableState.defaultTransIn;
 					transOut = FlxTransitionableState.defaultTransOut;
 
 					FlxG.switchState(new StoryMenuState());
+
+
 
 					// if ()
 					StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
@@ -3214,7 +3251,9 @@ class PlayState extends MusicBeatState
 			{
 				if (Math.abs(note.noteData) == spr.ID)
 				{
-					spr.playNote(note,(currentOptions.useNotesplashes && !note.isSustainNote)?(judge=='sick' || judge=='epic'):false);
+					if(note.behaviour.arguments.splashes!=null){
+						spr.playNote(note,(currentOptions.useNotesplashes && !note.isSustainNote)?(judge=='sick' || judge=='epic'):(note.behaviour.arguments.splashes.always==null?false:note.behaviour.arguments.splashes.always));
+					}
 				}
 			});
 			updateReceptors();
@@ -3523,8 +3562,9 @@ class PlayState extends MusicBeatState
 
 		isStoryMode = true;
 		storyDifficulty = difficulty;
+		var diff = storyPlaylist[0].toLowerCase() == 'your-end'?difficulty:1;
 
-		SONG = Song.loadFromJson(data.songs[0].formatDifficulty(1), storyPlaylist[0].toLowerCase());
+		SONG = Song.loadFromJson(data.songs[0].formatDifficulty(diff), storyPlaylist[0].toLowerCase());
 		storyWeek = weekData.weekNum;
 		campaignScore = 0;
 
@@ -3537,9 +3577,11 @@ class PlayState extends MusicBeatState
 		PlayState.charterPos = 0;
 
 		storyPlaylist.remove(storyPlaylist[0]);
+
 		if(storyPlaylist.length>0){
 			var songData = weekData.getByChartName(storyPlaylist[0]);
-			SONG = Song.loadFromJson(songData.formatDifficulty(1), songData.chartName.toLowerCase());
+			var diff = songData.chartName.toLowerCase() == 'your-end'?storyDifficulty:1;
+			SONG = Song.loadFromJson(songData.formatDifficulty(diff), songData.chartName.toLowerCase());
 
 			PlayState.songData=songData;
 		}
@@ -3558,7 +3600,8 @@ class PlayState extends MusicBeatState
 		PlayState.startPos = 0;
 		PlayState.charterPos = 0;
 		PlayState.songData=songData;
-		SONG = Song.loadFromJson(songData.formatDifficulty(1), songData.chartName.toLowerCase());
+		var diff = songData.chartName.toLowerCase() == 'your-end'?difficulty:1;
+		SONG = Song.loadFromJson(songData.formatDifficulty(diff), songData.chartName.toLowerCase());
 		weekData = new WeekData("Freeplay",songData.weekNum,'dad',[songData],'bf','gf',songData.loadingPath);
 		// TODO: maybe have a "setPlaylist" function which takes WeekData and have FreeplayState create a temporary one n shit
 		// could also be used to have custom 'freeplay playlists' where you play multiple songs in a row without being in story mode

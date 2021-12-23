@@ -5,34 +5,6 @@
 			"multiplier": 1
 		},
 		{
-			"startTime": 11181.8181818182,
-			"multiplier": 0.9
-		},
-		{
-			"startTime": 11245.4545454545,
-			"multiplier": 0.8
-		},
-		{
-			"startTime": 11311.3636363636,
-			"multiplier": 0.6
-		},
-		{
-			"startTime": 11375,
-			"multiplier": 0.2
-		},
-		{
-			"startTime": 11536.3636363636,
-			"multiplier": 0.6
-		},
-		{
-			"startTime": 11590.9090909091,
-			"multiplier": 0.8
-		},
-		{
-			"startTime": 11636.3636363636,
-			"multiplier": 1
-		},
-		{
 			"startTime": 81000,
 			"multiplier": 1
 		},
@@ -284,14 +256,28 @@
 			{
 				"sectionNotes": [
 					[
-						9545.45454545454,
-						3,
-						90.9090909090909
+						9636.36363636363,
+						0,
+						7.95807864051312e-13,
+						0
 					],
 					[
-						9727.27272727273,
+						9363.63636363636,
+						3,
+						2.27373675443232e-13,
+						0
+					],
+					[
+						9818.18181818182,
+						2,
+						9.09494701772928e-13,
+						0
+					],
+					[
+						10000,
 						1,
-						181.818181818182
+						4.54747350886464e-13,
+						0
 					]
 				],
 				"lengthInSteps": 16,
@@ -303,22 +289,30 @@
 					[
 						10181.8181818182,
 						2,
-						272.727272727273
+						2.55795384873636e-13
 					],
 					[
-						10545.4545454545,
+						10454.5454545455,
 						0,
-						272.727272727273
+						6.82121026329696e-13,
+						0
 					],
 					[
-						10909.0909090909,
-						3,
-						727.272727272727
-					],
-					[
-						11131.8181818182,
+						10727.2727272727,
 						1,
-						454.545454545455,
+						0,
+						0
+					],
+					[
+						11000,
+						2,
+						1.13686837721616e-13,
+						0
+					],
+					[
+						11181.8181818182,
+						1,
+						0,
 						0
 					]
 				],
@@ -8948,6 +8942,33 @@
 			},
 			{
 				"lengthInSteps": 16,
+				"typeOfSection": 0,
+				"sectionNotes": [],
+				"altAnim": false,
+				"bpm": 165,
+				"changeBPM": false,
+				"mustHitSection": true
+			},
+			{
+				"sectionNotes": [],
+				"typeOfSection": 0,
+				"lengthInSteps": 16,
+				"altAnim": false,
+				"mustHitSection": true,
+				"changeBPM": false,
+				"bpm": 165
+			},
+			{
+				"sectionNotes": [],
+				"typeOfSection": 0,
+				"lengthInSteps": 16,
+				"altAnim": false,
+				"mustHitSection": true,
+				"changeBPM": false,
+				"bpm": 165
+			},
+			{
+				"lengthInSteps": 16,
 				"altAnim": false,
 				"typeOfSection": 0,
 				"sectionNotes": [],
@@ -8957,7 +8978,7 @@
 			}
 		],
 		"player3": "justgf",
-		"initialSpeed": 1.26,
+		"initialSpeed": 1,
 		"sliderVelocities": null,
 		"song": "your-end",
 		"stage": "airship",

@@ -289,6 +289,11 @@ class Paths
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
 	}
 
+	inline static public function herovoices(song:String)
+	{
+		return getPath('songs/${song.toLowerCase()}/VoicesHero.$SOUND_EXT', MUSIC, null);
+	}
+
 	inline static public function voices(song:String)
 	{
 		return getPath('songs/${song.toLowerCase()}/Voices.$SOUND_EXT', MUSIC, null);

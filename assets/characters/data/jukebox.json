@@ -1,0 +1,26 @@
+{
+	"charOffset": [
+		0,
+		75
+	],
+	"singDur": 4,
+	"spritesheet": "lmaoJukebox",
+	"anims": [
+		{
+			"prefix": "Jukebox",
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"name": "idle",
+			"looped": false
+		}
+	],
+	"flipX": false,
+	"antialiasing": true,
+	"iconName": "dad",
+	"beatDancer": true,
+	"format": "andromeda",
+	"healthColor": "0xFF5F7D0F"
+}

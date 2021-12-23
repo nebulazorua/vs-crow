@@ -13,8 +13,6 @@
 			],
 			"fps": 24,
 			"prefix": "becky Dancing Beat Hair blowing CAR",
-			"looped": false,
-			"name": "danceLeft",
 			"indices": [
 				30,
 				0,
@@ -32,7 +30,9 @@
 				12,
 				13,
 				14
-			]
+			],
+			"name": "danceLeft",
+			"looped": false
 		},
 		{
 			"offsets": [
@@ -41,8 +41,6 @@
 			],
 			"fps": 24,
 			"prefix": "becky Dancing Beat Hair blowing CAR",
-			"looped": false,
-			"name": "danceRight",
 			"indices": [
 				15,
 				16,
@@ -59,13 +57,15 @@
 				27,
 				28,
 				29
-			]
+			],
+			"name": "danceRight",
+			"looped": false
 		}
 	],
 	"flipX": false,
 	"antialiasing": true,
-	"iconName": "gf",
+	"iconName": "becky",
 	"beatDancer": true,
-	"format": "andromeda",
-	"healthColor": "0xFFA5004D"
+	"healthColor": "0xFFA5004D",
+	"format": "andromeda"
 }

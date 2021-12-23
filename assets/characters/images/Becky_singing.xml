@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="Becky_singing.png">
+
+<SubTexture name="Becky Idle0000" x="0" y="0" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Idle0001" x="564" y="0" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Idle0002" x="1128" y="0" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Idle0003" x="1692" y="0" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Up0000" x="0" y="604" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Up0001" x="564" y="604" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Up0002" x="1128" y="604" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Up0003" x="1692" y="604" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Down0000" x="0" y="1208" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Down0001" x="564" y="1208" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Down0002" x="1128" y="1208" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Down0003" x="1692" y="1208" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Left0000" x="0" y="1812" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Left0001" x="564" y="1812" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Left0002" x="1128" y="1812" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Left0003" x="1692" y="1812" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Right0000" x="0" y="2416" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Right0001" x="564" y="2416" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Right0002" x="1128" y="2416" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+<SubTexture name="Becky Right0003" x="1692" y="2416" width="564" height="604" frameX="0" frameY="0" frameWidth="564" frameHeight="604" />
+</TextureAtlas>

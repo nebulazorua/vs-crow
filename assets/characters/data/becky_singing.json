@@ -1,0 +1,66 @@
+{
+	"charOffset": [
+		0,
+		150
+	],
+	"singDur": 4,
+	"spritesheet": "Becky_singing",
+	"anims": [
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"prefix": "Becky Idle",
+			"looped": false,
+			"name": "idle"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"prefix": "Becky Up",
+			"looped": false,
+			"name": "singUP"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"prefix": "Becky Left",
+			"looped": false,
+			"name": "singLEFT"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"prefix": "Becky Right",
+			"looped": false,
+			"name": "singRIGHT"
+		},
+		{
+			"offsets": [
+				-42,
+				0
+			],
+			"fps": 24,
+			"prefix": "Becky Down",
+			"looped": false,
+			"name": "singDOWN"
+		}
+	],
+	"flipX": false,
+	"antialiasing": true,
+	"iconName": "becky",
+	"beatDancer": false,
+	"format": "andromeda",
+	"healthColor": "0xFFFFFFFF"
+}

@@ -100,13 +100,16 @@ class TitleState extends MusicBeatState
 		persistentUpdate = true;
 
 
-		var bg = new FlxSprite();
+		bg = new FlxSprite();
 		bg.frames = Paths.getSparrowAtlas('titlebg');
 		bg.animation.addByPrefix('bg', 'gfDance', 24);
 		bg.animation.play("bg",true);
-		bg.updateHitbox();
 		bg.scrollFactor.set();
+		bg.setGraphicSize(FlxG.width,FlxG.height);
+		bg.updateHitbox();
 		bg.screenCenter(XY);
+		bg.x += 515;
+		bg.y += 60;
 		bg.antialiasing = true;
 		add(bg);
 
@@ -116,7 +119,7 @@ class TitleState extends MusicBeatState
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
-		
+
 		titleText = new FlxSprite(FlxG.width * 0.099, FlxG.height * 0.825);
 
 		add(logoBl);
@@ -330,9 +333,9 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
 			case 5:
-				createCoolText(['In association', 'with']);
+				createCoolText(['Not in association', 'with']);
 			case 7:
-				addMoreText('ourselves');
+				addMoreText('Newgrounds');
 				ngSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
 			case 8:
