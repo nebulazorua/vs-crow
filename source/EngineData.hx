@@ -23,7 +23,7 @@ class EngineData {
   public static var weekData:Array<WeekData> = [
     new WeekData("Funkin' Virgin",0,'gf',[
       "Tutorial",
-    ],"bf","gf","tutorial"),
+    ],"bf","","tutorial"),
     new WeekData("FNF x Nefarious",1,'crow',[
       "Crow",
       "Boss",

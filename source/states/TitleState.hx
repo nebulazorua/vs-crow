@@ -99,72 +99,26 @@ class TitleState extends MusicBeatState
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		// bg.antialiasing = true;
-		// bg.setGraphicSize(Std.int(bg.width * 0.6));
-		// bg.updateHitbox();
+
+		var bg = new FlxSprite();
+		bg.frames = Paths.getSparrowAtlas('titlebg');
+		bg.animation.addByPrefix('bg', 'gfDance', 24);
+		bg.animation.play("bg",true);
+		bg.updateHitbox();
+		bg.scrollFactor.set();
+		bg.screenCenter(XY);
+		bg.antialiasing = true;
 		add(bg);
 
-		if(EngineData.options.oldTitle)
-		{
-			logoBl = new FlxSprite(-150, -100);
-			logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-			logoBl.antialiasing = true;
-			logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
-			logoBl.animation.play('bump');
-			logoBl.updateHitbox();
-		}
-		else
-		{
-			bg = new FlxSprite(FlxG.width, FlxG.height).loadGraphic(Paths.image('titleBG'));
-			bg.updateHitbox();
-			bg.screenCenter();
-			bg.antialiasing = true;
-			add(bg);
-			bg.visible = true;
+		logoBl = new FlxSprite(-150, -100);
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+		logoBl.antialiasing = true;
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
+		logoBl.animation.play('bump');
+		logoBl.updateHitbox();
+		
+		titleText = new FlxSprite(FlxG.width * 0.099, FlxG.height * 0.825);
 
-			bgLit = new FlxSprite(FlxG.width, FlxG.height).loadGraphic(Paths.image('titleBGLit'));
-			bgLit.updateHitbox();
-			bgLit.screenCenter();
-			bgLit.antialiasing = true;
-			add(bgLit);
-			bgLit.visible = false;
-
-			logoBl = new FlxSprite(285, -70);
-			logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-			logoBl.antialiasing = true;
-			logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
-			logoBl.animation.play('bump');
-			logoBl.setGraphicSize(Std.int(logoBl.width * 0.72));
-			logoBl.scrollFactor.set();
-			logoBl.updateHitbox();
-
-			speaker = new FlxSprite(FlxG.width * 0.5, FlxG.height * 0.4);
-			speaker.frames = Paths.getSparrowAtlas('titleSpeaker');
-			speaker.animation.addByPrefix('lit', 'speakers', 24);
-			speaker.animation.addByPrefix('normal', 'alt speakers', 24);
-			speaker.screenCenter(X);
-			speaker.setGraphicSize(Std.int(speaker.width * 0.72));
-			speaker.antialiasing = true;
-			add(speaker);
-
-			speaker.animation.play('normal',true);
-		}
-
-		//i know its wasteful but im a lazy ass
-
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = true;
-		if(EngineData.options.oldTitle)
-		{
-			add(gfDance);
-			titleText = new FlxSprite(100, FlxG.height * 0.8);
-		}else{
-			titleText = new FlxSprite(FlxG.width * 0.099, FlxG.height * 0.825);
-		}
 		add(logoBl);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin0", 24);
@@ -285,13 +239,6 @@ class TitleState extends MusicBeatState
 			#end
 			titleText.animation.play('press',true);
 
-			if(!EngineData.options.oldTitle)
-			{
-				speaker.animation.play('lit',true);
-				//bg.visible = false;
-				bgLit.visible = true;
-			}
-
 			FlxG.camera.flash(FlxColor.WHITE, 1, null, true);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
@@ -365,19 +312,13 @@ class TitleState extends MusicBeatState
 		super.beatHit();
 
 		logoBl.animation.play('bump');
-		danceLeft = !danceLeft;
-
-		if (danceLeft)
-			gfDance.animation.play('danceRight');
-		else
-			gfDance.animation.play('danceLeft');
 
 		FlxG.log.add(curBeat);
 
 		switch (curBeat)
 		{
 			case 1:
-				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
+				createCoolText(['The Mario Corner']);
 			// credTextShit.visible = true;
 			case 3:
 				addMoreText('present');
@@ -391,7 +332,7 @@ class TitleState extends MusicBeatState
 			case 5:
 				createCoolText(['In association', 'with']);
 			case 7:
-				addMoreText('newgrounds');
+				addMoreText('ourselves');
 				ngSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
 			case 8:
@@ -413,13 +354,13 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
 			case 13:
-				addMoreText('Friday');
+				addMoreText('Funkin\'');
 			// credTextShit.visible = true;
 			case 14:
-				addMoreText('Night');
+				addMoreText('X');
 			// credTextShit.text += '\nNight';
 			case 15:
-				addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+				addMoreText('Nefarious'); // credTextShit.text += '\nFunkin';
 
 			case 16:
 				skipIntro();

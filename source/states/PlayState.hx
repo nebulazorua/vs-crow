@@ -671,7 +671,7 @@ class PlayState extends MusicBeatState
 			case 'deathpod':
 				gfVersion = 'gfDp';
 			case 'airshipHero':
-				gfVersion = 'gfNoSpeaker';
+				gfVersion = 'gfDp';
 				if(player2=='crow-nogf'){
 					player2 = 'crowhelmetless';
 				}
@@ -913,41 +913,6 @@ class PlayState extends MusicBeatState
 		{
 			switch (curSong.toLowerCase())
 			{
-				case "winter-horrorland":
-					var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-					add(blackScreen);
-					blackScreen.scrollFactor.set();
-					camHUD.visible = false;
-
-					new FlxTimer().start(0.1, function(tmr:FlxTimer)
-					{
-						remove(blackScreen);
-						FlxG.sound.play(Paths.sound('Lights_Turn_On'));
-						camFollow.y = -2050;
-						camFollow.x += 200;
-						FlxG.camera.focusOn(camFollow.getPosition());
-						FlxG.camera.zoom = 1.5;
-
-						new FlxTimer().start(0.8, function(tmr:FlxTimer)
-						{
-							camHUD.visible = true;
-							remove(blackScreen);
-							FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
-								ease: FlxEase.quadInOut,
-								onComplete: function(twn:FlxTween)
-								{
-									startCountdown();
-								}
-							});
-						});
-					});
-				case 'senpai':
-					schoolIntro(doof);
-				case 'roses':
-					FlxG.sound.play(Paths.sound('ANGRY'));
-					schoolIntro(doof);
-				case 'thorns':
-					schoolIntro(doof);
 				case 'your-end' | 'boss':
 					showDialogue(doof);
 				case 'crow':
@@ -1365,8 +1330,8 @@ class PlayState extends MusicBeatState
 
 		inst = new FlxSound().loadEmbedded(CoolUtil.getSound('${Paths.inst(SONG.song)}'));
 		if(curSong.toLowerCase()!='tutorial'){
-			inst.volume = 0.7;
-			vocals.volume = 0.75;
+			inst.volume = 0.6;
+			vocals.volume = 0.65;
 		}
 		//inst = new FlxSound().loadEmbedded(Paths.inst(SONG.song));
 		inst.looped=false;
@@ -1407,7 +1372,8 @@ class PlayState extends MusicBeatState
 
 		}*/
 		scrollSpeed = 1;//(currentOptions.downScroll?-1:1);
-		var setupSplashes:Array<String>=[];
+		var setupTypes:Array<String>=[];
+		var setupMods:Array<String>=[];
 		var loadingSplash = new NoteSplash(0,0);
 		loadingSplash.visible=false;
 
@@ -1455,9 +1421,10 @@ class PlayState extends MusicBeatState
 				swagNote.sustainLength = songNotes[2];
 				swagNote.scrollFactor.set(0, 0);
 				swagNote.cameras = [camNotes];
-				if(!setupSplashes.contains(swagNote.graphicType) && gottaHitNote){
+				if(!setupTypes.contains(swagNote.graphicType) || !setupMods.contains(swagNote.modifier)){
 					loadingSplash.setup(swagNote);
-					setupSplashes.push(swagNote.graphicType);
+					setupMods.push(swagNote.modifier);
+					setupTypes.push(swagNote.graphicType);
 				}
 
 				if(gottaHitNote){
@@ -2590,17 +2557,6 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-
-					if (songData.chartName.toLowerCase() == 'eggnog')
-					{
-						var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
-							-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-						blackShit.scrollFactor.set();
-						add(blackShit);
-						camHUD.visible = false;
-
-						FlxG.sound.play(Paths.sound('Lights_Shut_off'));
-					}
 
 					FlxTransitionableState.skipNextTransIn = true;
 					FlxTransitionableState.skipNextTransOut = true;

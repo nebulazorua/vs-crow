@@ -74,8 +74,6 @@ class OptionsState extends MusicBeatState
 				new ToggleOption("allowNoteModifiers","Allow note modifiers","Whether note modifiers (e.g pixel notes in week 6) get used"),
 				new StepOption("backTrans","BG Darkness",10,0,100,"%","","How dark the background is",true),
 				new ScrollOption("staticCam","Camera Focus","Who the camera should focus on",0,OptionUtils.camFocuses.length-1,OptionUtils.camFocuses),
-				new ToggleOption("oldMenus","Vanilla Menus","Forces the vanilla menus to be used"),
-				new ToggleOption("oldTitle","Vanilla Title Screen","Forces the vanilla title to be used"),
 				new ToggleOption("healthBarColors","Healthbar Colours","Whether the healthbar colour changes with the character"),
 				new ToggleOption("persistentCombo","Combo doesnt fade","Combo stays on screen instead of fading out"),
 				new ToggleOption("onlyScore","Minimal Information","Only shows your score below the hp bar"),

@@ -33,11 +33,15 @@ class DialogueBox extends FlxSpriteGroup
 	public var finishThing:Void->Void;
 	public var nextLine:Void->Void;
 
+	var pressE:FlxSprite;
+	var eOverlay:FlxSprite;
 	var portraitLeft:FlxSprite;
 	var portraitRight:FlxSprite;
 
 	var handSelect:FlxSprite;
 	var bgFade:FlxSprite;
+
+	var tag:FlxText;
 
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
 	{
@@ -53,24 +57,20 @@ class DialogueBox extends FlxSpriteGroup
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 
-		bgFade = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 3), Std.int(FlxG.height * 3), 0xFFFFFFFF);
+		bgFade = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 3), Std.int(FlxG.height * 3), FlxColor.BLACK);
 		bgFade.scrollFactor.set();
 		bgFade.alpha = 0;
 		bgFade.setGraphicSize(Std.int(bgFade.width*(1+(1-FlxG.camera.zoom))));
 		add(bgFade);
 
-		FlxTween.tween(bgFade, {alpha: 0.3}, 2.075, {
+		FlxTween.tween(bgFade, {alpha: 0.5}, 2.075, {
 			ease: FlxEase.linear
 		});
 
 		box = new FlxSprite(-20, 45);
 		var hasDialog = true;
 		box.loadGraphic(Paths.image("text_box"));
-
-		if(PlayState.SONG.song.toLowerCase()=='thorns' || PlayState.SONG.song.toLowerCase()=='roses' || PlayState.SONG.song.toLowerCase()=='senpai')
-			box.setGraphicSize(Std.int(box.width * PlayState.daPixelZoom * 0.9));
-		else
-			box.setGraphicSize(Std.int(box.width*(1+(1-FlxG.camera.zoom))));
+		box.setGraphicSize(Std.int(box.width*(1+(1-FlxG.camera.zoom))));
 
 		box.updateHitbox();
 		this.dialogueList = dialogueList;
@@ -94,6 +94,18 @@ class DialogueBox extends FlxSpriteGroup
 		portraitRight.visible = false;
 		portraitRight.scale.set(0.75,0.75);
 
+		pressE = new FlxSprite(Std.int(FlxG.width/2) + 410,560);
+		pressE.loadGraphic(Paths.image("E"));
+		pressE.antialiasing=true;
+		pressE.scrollFactor.set();
+		pressE.scale.set(0.5,0.5);
+
+		eOverlay = new FlxSprite(Std.int(FlxG.width/2) + 410,560);
+		eOverlay.loadGraphic(Paths.image("EOverlay"));
+		eOverlay.antialiasing=true;
+		eOverlay.scrollFactor.set();
+		eOverlay.scale.set(0.5,0.5);
+
 		add(box);
 		box.screenCenter(XY);
 		box.y += 200;
@@ -101,10 +113,12 @@ class DialogueBox extends FlxSpriteGroup
 		portraitRight.x += 285;
 		portraitLeft.x -= 75;
 		portraitLeft.y += 325;
-
-
 		add(portraitLeft);
 		add(portraitRight);
+		add(pressE);
+		add(eOverlay);
+
+
 
 
 		if (!talkingRight)
@@ -117,6 +131,14 @@ class DialogueBox extends FlxSpriteGroup
 		dropText.setFormat(Paths.font("silverage.ttf"), 32);
 
 		dropText.color = 0xFFD89494;
+
+		tag = new FlxText(82,400,390,"Crow",72);
+		tag.setGraphicSize(Std.int(tag.width*(1+(1-FlxG.camera.zoom))));
+		tag.setFormat(Paths.font("silverage.ttf"), 48);
+		tag.alignment = CENTER;
+		tag.color = FlxColor.WHITE;
+
+		add(tag);
 		//add(dropText);
 
 		swagDialogue = new TypingText(220, 500, Std.int(FlxG.width * 0.6), "", 32);
@@ -135,7 +157,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	var dialogueOpened:Bool = false;
 	var dialogueStarted:Bool = false;
-
+	var shit:Float = 0;
 	override function update(elapsed:Float)
 	{
 		// HARD CODING CUZ IM STUPDI
@@ -150,6 +172,10 @@ class DialogueBox extends FlxSpriteGroup
 
 		dropText.text = swagDialogue.text;
 		dialogueOpened=true;
+
+		shit += elapsed*6;
+
+		eOverlay.alpha = alpha * Math.sin(shit);
 
 		if (dialogueOpened && !dialogueStarted)
 		{
@@ -172,17 +198,11 @@ class DialogueBox extends FlxSpriteGroup
 					if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'thorns')
 						FlxG.sound.music.fadeOut(2.2, 0);
 
-					new FlxTimer().start(0.2, function(tmr:FlxTimer)
-					{
-						box.alpha -= 1 / 5;
-						bgFade.alpha -= 1 / 5 * 0.7;
-						portraitLeft.visible = false;
-						portraitRight.visible = false;
-						swagDialogue.alpha -= 1 / 5;
-						dropText.alpha = swagDialogue.alpha;
-					}, 5);
+					FlxTween.tween(this, {alpha: 0}, .3, {
+						ease: FlxEase.linear
+					});
 
-					new FlxTimer().start(1.2, function(tmr:FlxTimer)
+					new FlxTimer().start(.5, function(tmr:FlxTimer)
 					{
 						finishThing();
 						kill();
@@ -226,6 +246,7 @@ class DialogueBox extends FlxSpriteGroup
 				}
 				portraitLeft.loadGraphic(Paths.image('ports/${curCharacter}'));
 				portraitLeft.scale.set(0.75,0.75);
+				pressE.x = Std.int(FlxG.width/2) + 410;
 			default:
 				portraitLeft.visible = false;
 				if(!portraitRight.visible){
@@ -233,7 +254,12 @@ class DialogueBox extends FlxSpriteGroup
 				}
 				portraitRight.loadGraphic(Paths.image('ports/${curCharacter}'));
 				portraitRight.scale.set(0.75,0.75);
+				pressE.x = 50;
 		}
+
+		tag.text = dir[0].toUpperCase();
+		eOverlay.x = pressE.x;
+		eOverlay.y = pressE.y;
 
 
 		swagDialogue.sounds = [FlxG.sound.load(Paths.sound("soundbytes/" + dir[0]), 1)];

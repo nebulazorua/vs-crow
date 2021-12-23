@@ -40,7 +40,7 @@ class GameOverSubstate extends MusicBeatSubstate
 				daBf = 'bf';
 		}
 		switch(who){
-			case 'crow' | 'crowDeathpod' | 'crowhelmetless':
+			case 'crow' | 'crowDeathpod' | 'crowhelmetless' | 'crow-nogf':
 				stageSuffix = '-nef';
 				daBf = who;
 		}

@@ -7,16 +7,16 @@
       "notes":{
         "sheet": "MINES",
         "up":{
-          "prefix": "mine"
+          "prefix": "GRENADE"
         },
         "down":{
-          "prefix": "mine"
+          "prefix": "GRENADE"
         },
         "left":{
-          "prefix": "mine"
+          "prefix": "GRENADE"
         },
         "right":{
-          "prefix": "mine"
+          "prefix": "GRENADE"
         }
 
       }

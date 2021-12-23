@@ -262,6 +262,10 @@ class ChartingState extends MusicBeatState
 		{
 			var vol:Float = 1;
 
+			if(_song.song.toLowerCase()!='tutorial'){
+				vol = 0.6;
+			}
+
 			if (check_mute_inst.checked)
 				vol = 0;
 
@@ -273,6 +277,10 @@ class ChartingState extends MusicBeatState
 		check_mute_vox.callback = function()
 		{
 			var vol:Float = 1;
+
+			if(_song.song.toLowerCase()!='tutorial'){
+				vol = 0.65;
+			}
 
 			if (check_mute_vox.checked)
 				vol = 0;
@@ -366,6 +374,9 @@ class ChartingState extends MusicBeatState
 		UI_box.scrollFactor.set();
 
 		FlxG.camera.follow(strumLine);
+
+		check_mute_vox.callback();
+		check_mute_inst.callback();
 	}
 
 	var stepperLength:FlxUINumericStepper;
