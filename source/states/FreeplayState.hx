@@ -321,8 +321,7 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 	function selectSong(){
-		PlayState.setFreeplaySong(songs[curSelected],1);
-		PlayState.storyDifficulty = curDifficulty;
+		PlayState.setFreeplaySong(songs[curSelected],curDifficulty);
 		LoadingState.loadAndSwitchState(new PlayState());
 	}
 	override function update(elapsed:Float)

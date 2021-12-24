@@ -12,6 +12,7 @@ import Shaders;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxFramesCollection;
+import flixel.graphics.FlxGraphic;
 
 class NoteSplash extends FlxSprite{
   public static var splashCache:Map<String,Map<String,FlxFramesCollection>>=[];
@@ -25,16 +26,11 @@ class NoteSplash extends FlxSprite{
     var args = behaviour.arguments.splashes;
     if(args!=null){
 
-      /*if(frames!=cache.get(note.graphicType) || !cache.exists(note.graphicType)){
-        frames = !cache.exists(note.graphicType)?Paths.noteSkinAtlas(args.sheet, 'skins', note.skin, note.modifier, note.graphicType):cache.get(note.graphicType);
-        cache.set(note.graphicType,frames);
-      }*/
-
       var cache = splashCache.get(note.modifier);
       if(cache==null)cache = new Map<String,FlxFramesCollection>();
-
       if(frames!=cache.get(note.graphicType) || !cache.exists(note.graphicType)){
         frames = !cache.exists(note.graphicType)?Paths.noteSkinAtlas(args.sheet, 'skins', note.skin, note.modifier, note.graphicType):cache.get(note.graphicType);
+        frames.parent.persist=true;
         cache.set(note.graphicType,frames);
         splashCache.set(note.modifier,cache);
       }

@@ -63,6 +63,7 @@ class Cache {
         var obj = FlxG.bitmap._cache.get(key);
         if (obj != null)
         {
+          obj.persist=false;
           Assets.cache.removeBitmapData(key);
           FlxG.bitmap._cache.remove(key);
           obj.destroy();

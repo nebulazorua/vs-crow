@@ -28,7 +28,7 @@ class EngineData {
       "Crow",
       "Boss",
       "Your End"
-    ],"bf","","crow"),
+    ],"bf","gf","crow"),
   ];
 }
 

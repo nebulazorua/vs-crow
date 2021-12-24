@@ -205,10 +205,12 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         fuckyoustupidbot.animation.play('fuck');
         add(fuckyoustupidbot);
 
-        centerX = 400;
-        centerY = 130;
+        centerX = 775;
+        centerY = 300;
       case 'deathpod':
         defaultCamZoom = .6;
+        //centerX
+
         bfPosition.x = 2075;
         bfPosition.y = 700;
 
@@ -358,7 +360,7 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         floor.antialiasing = true;
         add(floor);
 
-        var lackeys:FlxSprite = new FlxSprite(-1900,-300);
+        var lackeys:FlxSprite = new FlxSprite(-1900,-275);
         lackeys.frames = Paths.getSparrowAtlas("airship/villain/MarioCrowdVillain","crow");
         lackeys.animation.addByPrefix("idle","MarioCrowdVillain idle",24,false);
         lackeys.antialiasing=true;
@@ -434,7 +436,7 @@ class Stage extends FlxTypedGroup<FlxBasic> {
         brokenPod.antialiasing=true;
         add(brokenPod);
 
-        var lackeys:FlxSprite = new FlxSprite(-1900,-525);
+        var lackeys:FlxSprite = new FlxSprite(-1900,-500);
         lackeys.frames = Paths.getSparrowAtlas("airship/hero/MarioCrowdHero","crow");
         lackeys.animation.addByPrefix("idle","MarioCrowdVillain idle",24,false);
         lackeys.antialiasing=true;

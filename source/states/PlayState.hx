@@ -795,7 +795,9 @@ class PlayState extends MusicBeatState
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 
-		camFollow.setPosition(stage.centerX==-1?stage.camPos.x:stage.centerX,stage.centerY==-1?stage.camPos.y:stage.centerY);
+		var centerX = (stage.centerX==-1)?(((dad.getMidpoint().x+ dad.camOffset.x) + (boyfriend.getMidpoint().x- stage.camOffset.x))/2):stage.centerX;
+		var centerY = (stage.centerY==-1)?(((dad.getMidpoint().y+ dad.camOffset.y) + (boyfriend.getMidpoint().y- stage.camOffset.y))/2):stage.centerY;
+		camFollow.setPosition(centerX,centerY);
 
 		if (prevCamFollow != null)
 		{
@@ -950,14 +952,16 @@ class PlayState extends MusicBeatState
 			FlxG.sound.load(Paths.sound("openingLine/crow"),1)
 		];
 		var currentSound:FlxSound = sounds[0];
+		var chance = doof.swagDialogue.soundChance;
 		doof.nextLine = function(){
 			if(num<=6){
-				if(num==5){
-				}
+				doof.swagDialogue.soundChance = 0;
 				for(sound in sounds){
 					sound.stop();
 				}
 				sounds[num].play();
+			}else{
+				doof.swagDialogue.soundChance = chance;
 			}
 			num++;
 		}
@@ -1388,6 +1392,9 @@ class PlayState extends MusicBeatState
 
 		var lastBFNotes:Array<Note> = [null,null,null,null];
 		var lastDadNotes:Array<Note> = [null,null,null,null];
+
+		var lastNonMineOpponent:Note;
+
 		for (section in noteData)
 		{
 			var coolSection:Int = Std.int(section.lengthInSteps / 4);
@@ -1428,10 +1435,18 @@ class PlayState extends MusicBeatState
 					songNotes[3] = 2; // mines
 
 
+
 				var swagNote:Note = new Note(daStrumTime, daNoteData, currentOptions.noteSkin, useCrowMod?"crow":noteModifier, EngineData.noteTypes[songNotes[3]], oldNote, false, getPosFromTime(daStrumTime));
 				swagNote.sustainLength = songNotes[2];
 				swagNote.scrollFactor.set(0, 0);
 				swagNote.cameras = [camNotes];
+				if(lastNonMineOpponent!=null && swagNote.noteType == 'mine' && storyDifficulty==2 && Math.abs(lastNonMineOpponent.strumTime-swagNote.strumTime) <= 1750){
+					swagNote.opponentMisses = !FlxG.random.bool(5);
+				}
+
+				if(swagNote.noteType!='mine' && !gottaHitNote){
+					lastNonMineOpponent=swagNote;
+				}
 
 				var loadSplash = setupMods.get(swagNote.modifier);
 				if(loadSplash==null){
@@ -1573,16 +1588,19 @@ class PlayState extends MusicBeatState
 	// https://github.com/Quaver/Quaver
 	// ADAPTED FROM QUAVER!!!
 
-	private function generateStaticArrows(plr:Int):Void
+	private function generateStaticArrows(player:Int):Void
 	{
-		var player = plr;
+		var owner = player;
 		for (i in 0...4)
 		{
 			var dirs = ["left","down","up","right"];
 			var clrs = ["purple","blue","green","red"];
 			var mod = noteModifier;
-			if(player==1 && (SONG.player1.contains("crow") || SONG.player1.contains("becky")))mod='crow';
-			if(player==0 && (SONG.player2.contains("crow") || SONG.player2.contains("becky")))mod='crow';
+			if(storyDifficulty==2){
+				owner=player==0?1:0;
+			}
+			if(owner==1 && (SONG.player1.contains("crow") || SONG.player1.contains("becky")))mod='crow';
+			if(owner==0 && (SONG.player2.contains("crow") || SONG.player2.contains("becky")))mod='crow';
 			var babyArrow:Receptor = new Receptor(0, center.y, i, currentOptions.noteSkin, mod, Note.noteBehaviour);
 			noteSplashes.add(babyArrow.noteSplash);
 
@@ -2356,8 +2374,9 @@ class PlayState extends MusicBeatState
 							case 'alt':
 								altAnim='-alt';
 							case 'mine':
-								// this really SHOULDN'T happen, but..
-								health += 0.25; // they hit a mine, not you
+								FlxG.sound.play(Paths.sound('mineExplode'), FlxG.random.float(0.5, 0.7));
+								health += 0.1;
+								altAnim = 'miss';
 						}
 
 						var drain = 0.0;
@@ -2419,8 +2438,14 @@ class PlayState extends MusicBeatState
 						//}
 						notPlaying.holdTimer = 0;
 
-						if (SONG.needsVoices)
-							vocals.volume = 1;
+						if (SONG.needsVoices){
+							if(curSong.toLowerCase()!='tutorial'){
+								vocals.volume = 0.65;
+							}else{
+								vocals.volume = 1;
+							}
+
+						}
 						daNote.wasGoodHit=true;
 						lastHitDadNote=daNote;
 						if(!daNote.isSustainNote){
@@ -3328,7 +3353,11 @@ class PlayState extends MusicBeatState
 			return noteMiss(note.noteData);
 		}
 
-		vocals.volume = 1;
+		if(curSong.toLowerCase()!='tutorial'){
+			vocals.volume = 0.65;
+		}else{
+			vocals.volume = 1;
+		}
 
 		if (!note.isSustainNote)
 		{
@@ -3428,7 +3457,11 @@ class PlayState extends MusicBeatState
 
 
 		//}
-		vocals.volume = 1;
+		if(curSong.toLowerCase()!='tutorial'){
+			vocals.volume = 0.65;
+		}else{
+			vocals.volume = 1;
+		}
 		updateAccuracy();
 
 	}
@@ -3563,7 +3596,7 @@ class PlayState extends MusicBeatState
 		isStoryMode = true;
 		storyDifficulty = difficulty;
 		var diff = storyPlaylist[0].toLowerCase() == 'your-end'?difficulty:1;
-
+		trace(diff,songData.chartName);
 		SONG = Song.loadFromJson(data.songs[0].formatDifficulty(diff), storyPlaylist[0].toLowerCase());
 		storyWeek = weekData.weekNum;
 		campaignScore = 0;
@@ -3581,6 +3614,7 @@ class PlayState extends MusicBeatState
 		if(storyPlaylist.length>0){
 			var songData = weekData.getByChartName(storyPlaylist[0]);
 			var diff = songData.chartName.toLowerCase() == 'your-end'?storyDifficulty:1;
+			trace(diff,songData.chartName);
 			SONG = Song.loadFromJson(songData.formatDifficulty(diff), songData.chartName.toLowerCase());
 
 			PlayState.songData=songData;
@@ -3601,6 +3635,7 @@ class PlayState extends MusicBeatState
 		PlayState.charterPos = 0;
 		PlayState.songData=songData;
 		var diff = songData.chartName.toLowerCase() == 'your-end'?difficulty:1;
+		trace(diff,songData.chartName,difficulty);
 		SONG = Song.loadFromJson(songData.formatDifficulty(diff), songData.chartName.toLowerCase());
 		weekData = new WeekData("Freeplay",songData.weekNum,'dad',[songData],'bf','gf',songData.loadingPath);
 		// TODO: maybe have a "setPlaylist" function which takes WeekData and have FreeplayState create a temporary one n shit
