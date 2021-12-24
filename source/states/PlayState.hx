@@ -1409,7 +1409,7 @@ class PlayState extends MusicBeatState
 				if (songNotes[1] > 3)
 					gottaHitNote = !section.mustHitSection;
 
-				var useCrowMod = gottaHitNote?false:true;
+				var useCrowMod = false;
 				var player = gottaHitNote?0:1;
 				if(storyDifficulty==2){
 					gottaHitNote=!gottaHitNote;
@@ -2622,7 +2622,7 @@ class PlayState extends MusicBeatState
 
 					FlxTransitionableState.skipNextTransIn = true;
 					FlxTransitionableState.skipNextTransOut = true;
-					prevCamFollow = camFollow;
+					//prevCamFollow = camFollow;
 
 					inst.stop();
 
@@ -3596,7 +3596,6 @@ class PlayState extends MusicBeatState
 		isStoryMode = true;
 		storyDifficulty = difficulty;
 		var diff = storyPlaylist[0].toLowerCase() == 'your-end'?difficulty:1;
-		trace(diff,songData.chartName);
 		SONG = Song.loadFromJson(data.songs[0].formatDifficulty(diff), storyPlaylist[0].toLowerCase());
 		storyWeek = weekData.weekNum;
 		campaignScore = 0;
@@ -3614,7 +3613,6 @@ class PlayState extends MusicBeatState
 		if(storyPlaylist.length>0){
 			var songData = weekData.getByChartName(storyPlaylist[0]);
 			var diff = songData.chartName.toLowerCase() == 'your-end'?storyDifficulty:1;
-			trace(diff,songData.chartName);
 			SONG = Song.loadFromJson(songData.formatDifficulty(diff), songData.chartName.toLowerCase());
 
 			PlayState.songData=songData;
