@@ -49,11 +49,11 @@ class DialogueBox extends FlxSpriteGroup
 
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'senpai':
-				FlxG.sound.playMusic(Paths.music('Lunchbox'), 0);
+			case 'crow' | 'boss':
+				FlxG.sound.playMusic(Paths.music('crow'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
-			case 'thorns':
-				FlxG.sound.playMusic(Paths.music('LunchboxScary'), 0);
+			case 'your-end' | 'bein-bad':
+				FlxG.sound.playMusic(Paths.music('sovereign'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 
@@ -195,8 +195,8 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					isEnding = true;
 
-					if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'thorns')
-						FlxG.sound.music.fadeOut(2.2, 0);
+					if(FlxG.sound.music!=null)
+						FlxG.sound.music.fadeOut(.3, 0);
 
 					FlxTween.tween(this, {alpha: 0}, .3, {
 						ease: FlxEase.linear
